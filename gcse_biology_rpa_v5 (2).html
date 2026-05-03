@@ -1,0 +1,1871 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="theme-color" content="#0F6E56">
+<title>AQA Biology RPAs</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+:root{
+  /* Paper colours */
+  --p1-bg:#E8F5F1;--p1-mid:#0F6E56;--p1-light:#C0DDD6;--p1-dark:#085041;--p1-text:#04342C;
+  --p2-bg:#E6F3F0;--p2-mid:#1D9E75;--p2-light:#9FE1CB;--p2-dark:#0F6E56;--p2-text:#085041;
+  /* Neutrals */
+  --bg:#F7F6F2;--surface:#FFFFFF;--surface2:#F1EFE8;
+  --text:#1A1A1A;--text2:#5F5E5A;--text3:#888780;
+  --border:#D3D1C7;--border-light:#E8E6DF;
+  /* Semantic */
+  --danger:#993C1D;--danger-bg:#FAECE7;--danger-mid:#D85A30;
+  --warn:#854F0B;--warn-bg:#FAEEDA;--warn-mid:#EF9F27;
+  --triple:#534AB7;--triple-bg:#EEEDFE;--triple-light:#CECBF6;
+  --info:#185FA5;--info-bg:#E6F1FB;
+  --success:#0F6E56;--success-bg:#E1F5EE;
+  /* Layout */
+  --radius:14px;--radius-sm:9px;--radius-xs:6px;
+  --font:system-ui,-apple-system,'Segoe UI',sans-serif;
+  --shadow:0 1px 3px rgba(0,0,0,0.08),0 1px 2px rgba(0,0,0,0.05);
+  --shadow-md:0 4px 12px rgba(0,0,0,0.10),0 2px 4px rgba(0,0,0,0.06);
+}
+
+body{font-family:var(--font);background:var(--bg);color:var(--text);font-size:16px;min-height:100vh;overscroll-behavior:none;-webkit-font-smoothing:antialiased;}
+.app{display:flex;flex-direction:column;min-height:100vh;max-width:500px;margin:0 auto;background:var(--bg);}
+
+/* ── Header ── */
+.header{background:var(--surface);border-bottom:1px solid var(--border-light);padding:14px 16px 12px;position:sticky;top:0;z-index:100;backdrop-filter:blur(8px);}
+.header-top{display:flex;align-items:center;gap:12px;}
+.back-btn{min-width:36px;height:36px;border:none;background:var(--surface2);border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:20px;color:var(--text2);flex-shrink:0;transition:background 0.15s;}
+.back-btn:active{background:var(--border);}
+.header-text{flex:1;}
+.header-title{font-size:17px;font-weight:700;color:var(--text);letter-spacing:-0.01em;}
+.header-sub{font-size:12px;color:var(--text3);margin-top:1px;}
+
+/* ── Bottom nav ── */
+.bottom-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:500px;background:var(--surface);border-top:1px solid var(--border-light);display:flex;z-index:100;padding-bottom:env(safe-area-inset-bottom,0px);}
+.nav-tab{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 4px 8px;cursor:pointer;border:none;background:none;color:var(--text3);font-family:var(--font);font-size:10px;font-weight:600;letter-spacing:0.02em;text-transform:uppercase;transition:color 0.15s;}
+.nav-tab.active{color:var(--p1-mid);}
+.nav-icon{font-size:20px;line-height:1;}
+
+/* ── Content ── */
+.content{flex:1;overflow-y:auto;padding:16px;padding-bottom:90px;}
+
+/* ── Pills ── */
+.pill{display:inline-flex;align-items:center;font-size:11px;font-weight:600;padding:3px 9px;border-radius:20px;letter-spacing:0.01em;}
+.pill-p1{background:var(--p1-bg);color:var(--p1-dark);}
+.pill-p2{background:var(--p2-bg);color:var(--p2-dark);}
+.pill-high{background:var(--danger-bg);color:var(--danger);}
+.pill-med{background:var(--warn-bg);color:var(--warn);}
+.pill-triple{background:var(--triple-bg);color:var(--triple);}
+.pill-grey{background:var(--surface2);color:var(--text2);}
+
+/* ── Section label ── */
+.section-label{font-size:11px;font-weight:700;letter-spacing:0.08em;color:var(--text3);text-transform:uppercase;margin:20px 0 10px;}
+
+/* ── Priority explain ── */
+.priority-explain{background:var(--surface);border:1px solid var(--border-light);border-radius:var(--radius-sm);padding:12px 14px;margin-bottom:12px;font-size:13px;color:var(--text2);line-height:1.6;}
+
+/* ── Triple toggle ── */
+.triple-toggle-wrap{background:var(--triple-bg);border:1px solid var(--triple-light);border-radius:var(--radius);padding:13px 15px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;gap:12px;}
+.triple-toggle-text{font-size:13px;color:var(--triple);font-weight:600;line-height:1.4;}
+.triple-toggle-sub{font-size:11px;color:#7F77DD;font-weight:400;margin-top:2px;}
+.toggle-switch{position:relative;width:46px;height:27px;flex-shrink:0;}
+.toggle-switch input{opacity:0;width:0;height:0;}
+.toggle-slider{position:absolute;inset:0;background:var(--triple-light);border-radius:27px;cursor:pointer;transition:background 0.2s;}
+.toggle-slider:before{content:'';position:absolute;width:21px;height:21px;left:3px;bottom:3px;background:#fff;border-radius:50%;transition:transform 0.2s;box-shadow:var(--shadow);}
+input:checked+.toggle-slider{background:var(--triple);}
+input:checked+.toggle-slider:before{transform:translateX(19px);}
+
+/* ── Paper dividers ── */
+.paper-divider{display:flex;align-items:center;gap:10px;margin:20px 0 10px;}
+.paper-divider-line{flex:1;height:1px;background:var(--border-light);}
+.paper-divider-label{font-size:12px;font-weight:700;letter-spacing:0.06em;padding:4px 12px;border-radius:20px;}
+.paper-divider-label.p1{background:var(--p1-bg);color:var(--p1-dark);}
+.paper-divider-label.p2{background:var(--p2-bg);color:var(--p2-dark);}
+
+/* ── RPA Cards ── */
+.rpa-card{background:var(--surface);border:1px solid var(--border-light);border-radius:var(--radius);padding:0;margin-bottom:10px;cursor:pointer;overflow:hidden;box-shadow:var(--shadow);transition:transform 0.1s,box-shadow 0.1s;}
+.rpa-card:active{transform:scale(0.985);box-shadow:none;}
+.rpa-card-accent{height:4px;}
+.rpa-card-accent.p1{background:linear-gradient(90deg,var(--p1-mid),var(--p1-light));}
+.rpa-card-accent.p2{background:linear-gradient(90deg,var(--p2-mid),var(--p2-light));}
+.rpa-card-body{display:flex;align-items:center;justify-content:space-between;padding:13px 15px;}
+.rpa-card-left{flex:1;}
+.rpa-card-title{font-size:15px;font-weight:700;color:var(--text);margin-bottom:6px;letter-spacing:-0.01em;}
+.rpa-card-meta{display:flex;gap:5px;flex-wrap:wrap;}
+.rpa-card-arrow{font-size:20px;color:var(--text3);margin-left:8px;}
+.mastery-bar-wrap{margin-top:10px;}
+.mastery-label{font-size:11px;color:var(--text3);margin-bottom:4px;display:flex;justify-content:space-between;}
+.mastery-bar{height:4px;background:var(--surface2);border-radius:2px;overflow:hidden;}
+.mastery-fill{height:100%;background:var(--p1-mid);border-radius:2px;transition:width 0.5s;}
+
+/* ── Collapsible sections ── */
+.collapsible{background:var(--surface);border:1px solid var(--border-light);border-radius:var(--radius);margin-bottom:8px;overflow:hidden;box-shadow:var(--shadow);}
+.collapsible-header{display:flex;align-items:center;justify-content:space-between;padding:15px 16px;cursor:pointer;font-weight:700;font-size:14px;min-height:52px;gap:8px;letter-spacing:-0.01em;}
+.collapsible-icon{font-size:16px;color:var(--text3);transition:transform 0.2s;flex-shrink:0;}
+.collapsible-icon.open{transform:rotate(180deg);}
+.collapsible-body{padding:0 16px 16px;border-top:1px solid var(--border-light);}
+.aim-text{font-size:14px;color:var(--text2);line-height:1.7;padding-top:12px;}
+
+/* ── Key Terms ── */
+.term-card{background:var(--surface2);border-radius:var(--radius-sm);padding:12px 14px;margin-bottom:8px;cursor:pointer;border:1px solid var(--border-light);}
+.term-card:first-child{margin-top:12px;}
+.term-name{font-size:14px;font-weight:700;color:var(--text);display:flex;align-items:center;justify-content:space-between;}
+.term-chevron{font-size:13px;color:var(--text3);flex-shrink:0;}
+.term-def{font-size:13px;color:var(--text2);margin-top:6px;line-height:1.6;display:none;}
+.term-def.show{display:block;}
+.term-exam-label{font-size:10px;font-weight:700;color:var(--p1-mid);margin-top:8px;text-transform:uppercase;letter-spacing:0.07em;display:none;}
+.term-exam-label.show{display:block;}
+.term-exam{font-size:13px;color:var(--p1-dark);margin-top:3px;line-height:1.55;display:none;}
+.term-exam.show{display:block;}
+
+/* ── CLAPSTTV ── */
+.clapsttv-intro{font-size:13px;color:var(--text2);line-height:1.65;padding-top:12px;margin-bottom:12px;background:var(--success-bg);border-radius:var(--radius-sm);padding:10px 12px;}
+.clapsttv-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:10px;}
+.clapsttv-item{background:var(--p1-bg);border-radius:var(--radius-sm);padding:10px 12px;border:1px solid var(--p1-light);}
+.clapsttv-letter{font-size:18px;font-weight:700;color:var(--p1-mid);}
+.clapsttv-label{font-size:11px;color:var(--p1-dark);margin-top:2px;line-height:1.35;}
+.clapsttv-roles{display:flex;flex-wrap:wrap;gap:3px;margin-top:6px;}
+.clapsttv-role{display:inline-flex;align-items:center;font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px;letter-spacing:0.02em;}
+.role-iv{background:#DBEAFE;color:#185FA5;}
+.role-dv{background:#FBEAF0;color:#993556;}
+.role-ctrl{background:var(--surface2);color:var(--text2);}
+.clapsttv-na{background:var(--surface2);border-color:var(--border-light);opacity:0.55;}
+.clapsttv-na .clapsttv-letter,.clapsttv-na .clapsttv-label{color:var(--text3);}
+
+/* ── Tier toggle ── */
+.toggle-row{display:flex;gap:6px;padding-top:12px;margin-bottom:12px;background:var(--surface2);border-radius:var(--radius-sm);padding:4px;}
+.tier-btn{flex:1;padding:9px;border-radius:var(--radius-xs);border:none;background:none;font-family:var(--font);font-size:13px;font-weight:600;cursor:pointer;color:var(--text2);min-height:40px;transition:all 0.15s;}
+.tier-btn.active{background:var(--surface);color:var(--p1-mid);box-shadow:var(--shadow);}
+
+/* ── Method steps ── */
+.method-step{display:flex;gap:12px;margin-bottom:12px;align-items:flex-start;}
+.step-num{width:26px;height:26px;min-width:26px;border-radius:50%;background:var(--p1-mid);color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+.step-text{font-size:14px;color:var(--text);line-height:1.65;}
+
+/* ── Improvements ── */
+.improvement-item{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid var(--border-light);}
+.improvement-item:last-child{border-bottom:none;}
+.imp-dot{width:7px;height:7px;border-radius:50%;background:var(--p1-mid);margin-top:6px;flex-shrink:0;}
+.imp-text{font-size:14px;color:var(--text);line-height:1.6;}
+
+/* ── Info / graph / formula boxes ── */
+.info-box{background:var(--info-bg);border-radius:var(--radius-sm);padding:13px;margin:10px 0;}
+.info-box-title{font-size:11px;font-weight:700;color:var(--info);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:8px;}
+.info-box p,.info-box li{font-size:13px;color:#0C447C;line-height:1.65;}
+.info-box ul{padding-left:16px;margin-top:4px;}
+.formula-box{background:var(--p1-dark);border-radius:var(--radius-sm);padding:18px;margin:12px 0;text-align:center;}
+.formula-main{font-size:17px;font-weight:700;color:#fff;font-family:Georgia,serif;letter-spacing:0.02em;}
+.formula-sub{font-size:12px;color:var(--p1-light);margin-top:8px;line-height:1.5;}
+.formula-triangle{display:flex;justify-content:center;margin:12px 0;}
+.triangle-wrap{display:inline-grid;grid-template-columns:1fr 1fr;gap:2px;text-align:center;}
+.tri-top{grid-column:1/3;background:var(--p1-mid);color:#fff;font-weight:700;font-size:14px;padding:10px 20px;border-radius:6px 6px 0 0;}
+.tri-bl{background:var(--p1-dark);color:#fff;font-weight:600;font-size:13px;padding:10px 16px;border-radius:0 0 0 6px;}
+.tri-br{background:var(--p1-dark);color:#fff;font-weight:600;font-size:13px;padding:10px 16px;border-radius:0 0 6px 0;}
+.tri-hint{font-size:11px;color:var(--text3);text-align:center;margin-top:6px;line-height:1.6;}
+.conv-table{width:100%;border-collapse:collapse;margin-top:10px;font-size:13px;}
+.conv-table th{background:var(--p1-mid);color:#fff;padding:8px 10px;text-align:left;font-size:11px;font-weight:700;}
+.conv-table td{padding:8px 10px;border-bottom:1px solid var(--border-light);color:var(--text);line-height:1.5;}
+.conv-table tr:last-child td{border-bottom:none;}
+.conv-table tr:nth-child(even) td{background:var(--surface2);}
+.worked-ex{background:var(--surface2);border-radius:var(--radius-sm);padding:13px;margin-top:10px;}
+.worked-ex-title{font-size:11px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:10px;}
+.worked-step{display:flex;gap:10px;margin-bottom:8px;font-size:13px;line-height:1.6;color:var(--text);}
+.worked-num{background:var(--p1-mid);color:#fff;font-size:10px;font-weight:700;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+
+/* ── Graph section ── */
+.graph-box{background:#F0FDF4;border:1px solid #BBF7D0;border-radius:var(--radius-sm);padding:14px;margin-top:10px;margin-bottom:8px;}
+.graph-box-title{font-size:11px;font-weight:700;color:#166534;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:8px;}
+.graph-box p,.graph-box li{font-size:13px;color:#14532D;line-height:1.65;}
+.graph-box ul{padding-left:16px;margin-top:4px;}
+.graph-axis-row{display:flex;gap:8px;margin:10px 0;}
+.graph-axis{flex:1;background:#fff;border:1px solid #BBF7D0;border-radius:var(--radius-xs);padding:9px;text-align:center;}
+.graph-axis-label{font-size:10px;font-weight:700;color:#166534;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:3px;}
+.graph-axis-value{font-size:12px;color:#14532D;font-weight:500;}
+.mistake-item{display:flex;gap:8px;padding:5px 0;font-size:12px;color:var(--danger);border-bottom:1px solid var(--danger-bg);}
+.mistake-item:last-child{border-bottom:none;}
+.mistake-item::before{content:'✗';font-weight:700;flex-shrink:0;}
+
+/* ── CTAs ── */
+.cta-btn{width:100%;background:var(--p1-mid);color:#fff;border:none;border-radius:var(--radius);padding:15px;font-family:var(--font);font-size:15px;font-weight:700;cursor:pointer;margin-top:8px;min-height:52px;transition:all 0.15s;letter-spacing:-0.01em;box-shadow:var(--shadow);}
+.cta-btn:active{opacity:0.85;transform:scale(0.99);}
+.cta-btn-outline{background:none;color:var(--p1-mid);border:1.5px solid var(--p1-mid);box-shadow:none;}
+.cta-btn-sentence{background:var(--triple);color:#fff;box-shadow:var(--shadow);}
+
+/* ── 6-mark hint ── */
+.six-mark-hint{background:var(--success-bg);border:1px solid var(--p2-light);border-radius:var(--radius-sm);padding:12px 14px;margin-bottom:12px;font-size:13px;color:var(--p1-dark);line-height:1.6;}
+
+/* ── Flashcard practice ── */
+.fc-progress{display:flex;gap:4px;margin-bottom:16px;}
+.fc-dot{height:4px;flex:1;border-radius:2px;background:var(--border);}
+.fc-dot.done{background:var(--p1-mid);}
+.fc-dot.current{background:var(--p2-light);}
+.fc-card{background:var(--surface);border:1px solid var(--border-light);border-radius:var(--radius);min-height:230px;padding:24px;display:flex;flex-direction:column;cursor:pointer;box-shadow:var(--shadow-md);transition:transform 0.1s;}
+.fc-card:active{transform:scale(0.985);}
+.fc-label{font-size:10px;font-weight:700;letter-spacing:0.09em;color:var(--text3);text-transform:uppercase;margin-bottom:14px;}
+.fc-question{font-size:18px;font-weight:700;color:var(--text);line-height:1.4;flex:1;letter-spacing:-0.01em;}
+.fc-tap-hint{font-size:12px;color:var(--text3);text-align:center;margin-top:20px;padding-top:12px;border-top:1px solid var(--border-light);}
+.fc-answer{font-size:14px;color:var(--p1-dark);line-height:1.7;margin-top:16px;padding-top:14px;border-top:1px solid var(--border-light);display:none;}
+.fc-answer.show{display:block;}
+.fc-answer-label{font-size:10px;font-weight:700;color:var(--p1-mid);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:6px;}
+.fc-btns{display:flex;gap:8px;margin-top:12px;}
+.fc-btn{flex:1;padding:14px;border-radius:var(--radius-sm);border:none;font-family:var(--font);font-size:14px;font-weight:700;cursor:pointer;min-height:52px;transition:all 0.1s;}
+.fc-got{background:var(--success-bg);color:var(--p1-mid);}
+.fc-nope{background:var(--danger-bg);color:var(--danger);}
+.fc-summary{background:var(--surface);border:1px solid var(--border-light);border-radius:var(--radius);padding:28px 24px;text-align:center;margin-bottom:12px;box-shadow:var(--shadow);}
+.fc-summary-score{font-size:52px;font-weight:700;color:var(--p1-mid);letter-spacing:-0.02em;}
+.fc-summary-label{font-size:14px;color:var(--text2);margin-top:6px;}
+.fc-summary-mode{font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:8px;}
+
+/* ── Sentence builder ── */
+.sb-card{background:var(--surface);border:1px solid var(--border-light);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow-md);margin-bottom:12px;}
+.sb-label{font-size:10px;font-weight:700;letter-spacing:0.09em;color:var(--triple);text-transform:uppercase;margin-bottom:14px;}
+/* Sentence rendered as stacked parts — avoids iOS inline-block overlap */
+.sb-parts{display:flex;flex-direction:column;gap:6px;margin-bottom:20px;}
+.sb-part-row{display:flex;align-items:center;flex-wrap:wrap;gap:6px;font-size:16px;font-weight:600;color:var(--text);line-height:1.5;}
+.sb-part-text{font-size:15px;font-weight:600;color:var(--text);line-height:1.5;}
+.sb-blank{display:inline-flex;align-items:center;justify-content:center;min-width:110px;height:36px;border:2px solid var(--triple);border-radius:var(--radius-xs);color:var(--triple);font-weight:700;font-size:14px;padding:0 10px;background:var(--triple-bg);white-space:nowrap;}
+.sb-blank.filled{border-color:var(--p1-mid);color:var(--p1-mid);background:var(--success-bg);}
+.sb-blank.correct{border-color:var(--p1-mid);color:var(--p1-mid);background:var(--success-bg);}
+.sb-blank.incorrect{border-color:var(--danger);color:var(--danger);background:var(--danger-bg);}
+.sb-blank-num{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:3px;}
+.sb-options{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px;}
+.sb-option{padding:10px 16px;border-radius:var(--radius-sm);border:1.5px solid var(--triple-light);background:var(--triple-bg);color:var(--triple);font-family:var(--font);font-size:14px;font-weight:600;cursor:pointer;transition:all 0.15s;min-height:44px;display:flex;align-items:center;}
+.sb-option:active{transform:scale(0.97);}
+.sb-option.used{opacity:0.4;pointer-events:none;}
+.sb-option.correct-opt{border-color:var(--p1-mid);background:var(--success-bg);color:var(--p1-mid);}
+.sb-option.wrong-opt{border-color:var(--danger);background:var(--danger-bg);color:var(--danger);}
+.sb-feedback{font-size:13px;margin-top:14px;padding:11px 13px;border-radius:var(--radius-xs);display:none;line-height:1.55;}
+.sb-feedback.show{display:block;}
+.sb-feedback.correct{background:var(--success-bg);color:var(--p1-dark);}
+.sb-feedback.incorrect{background:var(--danger-bg);color:var(--danger);}
+.sb-progress{display:flex;gap:4px;margin-bottom:16px;}
+.sb-dot{height:4px;flex:1;border-radius:2px;background:var(--border);}
+.sb-dot.done{background:var(--triple);}
+.sb-dot.current{background:var(--triple-light);}
+
+/* ── 6-mark / Apply ── */
+.mark-question{background:var(--surface);border:1px solid var(--border-light);border-radius:var(--radius);padding:16px;margin-bottom:12px;box-shadow:var(--shadow);}
+.mark-q-label{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px;}
+.mark-q-text{font-size:15px;color:var(--text);line-height:1.7;font-weight:500;}
+.mark-q-marks{font-size:12px;color:var(--text3);margin-top:10px;font-weight:600;}
+textarea{width:100%;min-height:180px;border:1.5px solid var(--border);border-radius:var(--radius);padding:14px;font-family:var(--font);font-size:14px;color:var(--text);background:var(--surface);resize:vertical;line-height:1.7;}
+textarea:focus{outline:none;border-color:var(--p1-mid);}
+.char-count{font-size:11px;color:var(--text3);text-align:right;margin-top:4px;}
+
+/* ── Score panel ── */
+.score-panel{background:var(--surface);border:1px solid var(--border-light);border-radius:var(--radius);overflow:hidden;margin-bottom:12px;box-shadow:var(--shadow);}
+.score-header{display:flex;align-items:center;background:var(--p1-mid);padding:20px;}
+.score-big{font-size:56px;font-weight:700;color:#fff;line-height:1;letter-spacing:-0.02em;}
+.score-denom{font-size:20px;color:rgba(255,255,255,0.65);}
+.score-right{flex:1;padding-left:20px;}
+.score-grade{font-size:16px;font-weight:700;color:#fff;margin-bottom:4px;}
+.score-breakdown-mini{font-size:12px;color:rgba(255,255,255,0.75);line-height:1.9;}
+.score-body{padding:16px;}
+.feedback-section{margin-bottom:12px;}
+.feedback-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:var(--text3);margin-bottom:8px;}
+.feedback-item{display:flex;align-items:flex-start;gap:10px;padding:6px 0;font-size:13px;line-height:1.45;border-bottom:1px solid var(--border-light);}
+.feedback-item:last-child{border-bottom:none;}
+.feedback-tick{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0;margin-top:1px;}
+.feedback-tick.pass{background:var(--success-bg);color:var(--p1-mid);}
+.feedback-tick.fail{background:var(--danger-bg);color:var(--danger);}
+.next-steps-box{background:var(--warn-bg);border-radius:var(--radius-sm);padding:14px;margin-top:10px;border:1px solid #FAC775;}
+.next-steps-title{font-size:11px;font-weight:700;color:var(--warn);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.07em;}
+.next-step-item{font-size:13px;color:var(--warn);margin-bottom:7px;padding-left:16px;position:relative;line-height:1.55;}
+.next-step-item::before{content:'→';position:absolute;left:0;}
+.aqa-phrase-section{margin-top:12px;padding-top:12px;border-top:1px solid var(--border-light);}
+
+/* ── Results ── */
+.results-card{background:var(--surface);border:1px solid var(--border-light);border-radius:var(--radius);padding:14px 16px;margin-bottom:8px;box-shadow:var(--shadow);}
+.results-rpa-name{font-size:14px;font-weight:700;margin-bottom:10px;letter-spacing:-0.01em;}
+.results-scores{display:flex;gap:6px;margin-top:8px;}
+.results-score-chip{flex:1;background:var(--surface2);border-radius:var(--radius-xs);padding:6px 8px;text-align:center;}
+.results-score-chip-label{font-size:10px;color:var(--text3);font-weight:600;letter-spacing:0.04em;text-transform:uppercase;}
+.results-score-chip-val{font-size:15px;font-weight:700;color:var(--text);margin-top:2px;}
+.weak-wrap{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;}
+.weak-tag{display:inline-flex;align-items:center;background:var(--danger-bg);color:var(--danger);font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px;}
+.reco-card{background:var(--success-bg);border:1px solid var(--p2-light);border-radius:var(--radius);padding:16px;margin-top:12px;cursor:pointer;box-shadow:var(--shadow);}
+.reco-label{font-size:10px;font-weight:700;color:var(--p1-mid);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:5px;}
+.reco-text{font-size:14px;font-weight:700;color:var(--p1-dark);}
+
+/* ── Settings / Reset ── */
+.settings-card{background:var(--surface);border:1px solid var(--border-light);border-radius:var(--radius);padding:16px;margin-top:16px;box-shadow:var(--shadow);}
+.settings-title{font-size:13px;font-weight:700;color:var(--text);margin-bottom:12px;}
+.reset-btn{width:100%;background:var(--danger-bg);color:var(--danger);border:1.5px solid var(--danger-mid);border-radius:var(--radius-sm);padding:12px;font-family:var(--font);font-size:14px;font-weight:700;cursor:pointer;}
+.reset-btn:active{opacity:0.8;}
+.save-badge{display:inline-flex;align-items:center;gap:5px;background:var(--success-bg);color:var(--p1-dark);font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px;margin-top:8px;}
+
+/* ── Misc ── */
+.empty-state{text-align:center;padding:52px 16px;color:var(--text2);}
+.empty-icon{font-size:44px;margin-bottom:14px;}
+.empty-text{font-size:15px;line-height:1.6;}
+.triple-banner{background:var(--triple-bg);border:1px solid var(--triple-light);border-radius:var(--radius-sm);padding:10px 13px;margin-bottom:10px;font-size:13px;color:var(--triple);font-weight:600;}
+</style>
+</head>
+<body>
+<div class="app" id="app"></div>
+<script>
+// ═══════════════════════════════════════════
+//  AQA EXAM PATTERNS (global)
+// ═══════════════════════════════════════════
+const AQA_PATTERNS = {
+  must_use_phrases: [
+    "calculate a mean",
+    "identify anomalous results",
+    "control variables"
+  ],
+  common_mistakes: [
+    { pattern:"results_not_method",  next_step:"Focus on what you would do, not what you would see — describe your steps and equipment, not your results." },
+    { pattern:"missing_measurement", next_step:"Make sure you state clearly what you are measuring and how — name the instrument you would use (e.g. balance, ruler, thermometer)." },
+    { pattern:"missing_controls",    next_step:"State which variables you are keeping constant and explain how — for example: 'I would control the temperature by using a water bath'." }
+  ]
+};
+
+// ═══════════════════════════════════════════
+//  MARKING ENGINE
+// ═══════════════════════════════════════════
+function markAnswer(answer, markScheme) {
+  const clean = answer.toLowerCase().replace(/[^\w\s]/g, "");
+  const tokens = clean.split(/\s+/);
+  const stem = w => w.replace(/ing$|ed$|es$|s$/, "").replace(/ies$/, "y");
+  const stemmedTokens = tokens.map(stem);
+  const synonymMap = markScheme.synonyms || {};
+
+  // ── Matching: supports single keywords, phrases, and synonyms ──
+  function matches(keyword) {
+    const kw = keyword.toLowerCase().replace(/[^\w\s]/g, "");
+    if (kw.includes(" ")) {
+      return new RegExp(kw.split(/\s+/).join("\\s+"), "i").test(clean);
+    }
+    if (new RegExp(`\\b${kw}\\b`, "i").test(clean)) return true;
+    return stemmedTokens.includes(stem(kw));
+  }
+
+  function matchesWithSynonyms(keyword) {
+    return matches(keyword) || (synonymMap[keyword] || []).some(syn => matches(syn));
+  }
+
+  function scoreGroup(keywords, max) {
+    const matched = keywords.filter(k => matchesWithSynonyms(k));
+    const missing  = keywords.filter(k => !matched.includes(k));
+    return { score: Math.min(matched.length, max), matched, missing };
+  }
+
+  const rules  = markScheme.marking_rules;
+  const method = scoreGroup(markScheme.method_keywords,   rules.method_marks   || 3);
+  const vars   = scoreGroup(markScheme.variable_keywords, rules.variable_marks  || 2);
+
+  // ── Evaluation scoring ──
+  const evalKws = markScheme.evaluation_keywords || ["repeat","mean","anomalous"];
+  let evalScore = 0;
+  const evalMatched = [], evalMissing = [];
+  evalKws.forEach(k => {
+    if (matchesWithSynonyms(k)) { evalScore += (rules.evaluation_marks||2) / evalKws.length; evalMatched.push(k); }
+    else evalMissing.push(k);
+  });
+  evalScore = Math.min(evalScore, rules.evaluation_marks || 2);
+
+  // ── AQA must-use phrase checks ──
+  const phraseResults = AQA_PATTERNS.must_use_phrases.map(p => ({ phrase:p, found:matches(p) }));
+
+  const total   = Math.min(method.score + vars.score + evalScore, 6);
+  const rounded = Math.round(total * 2) / 2;
+
+  // ── Common mistake heuristics ──
+  const resultsWords  = ["turned","colour changed","increased","decreased","got bigger","got smaller","went blue","went orange"];
+  const methodWords   = ["placed","added","measured","weighed","recorded","set up","used","repeat","calculated"];
+  const instruments   = ["ruler","balance","thermometer","stopwatch","timer","syringe","colorimeter","light meter","ph meter","gas syringe","measuring cylinder","callipers","anemometer"];
+  const controlWords  = ["control","keep","constant","same","fixed","ensure"];
+
+  const likelyDescribingResults = resultsWords.filter(w => clean.includes(w)).length >= 2
+    && methodWords.filter(w => clean.includes(w)).length <= 1;
+  const mentionsMeasurement = instruments.some(i => clean.includes(i));
+  const mentionsControl     = controlWords.filter(w => clean.includes(w)).length >= 2
+    || matches("control variables") || matches("controlled");
+
+  // ── Build feedback ──
+  const feedback = [];
+  if (method.matched.length > 0)
+    feedback.push(`✓ Method: good — mentioned ${method.matched.slice(0,4).join(", ")}`);
+  if (method.missing.length > 0)
+    feedback.push(`✗ Method: missing — ${method.missing.slice(0,4).join(", ")}`);
+  if (vars.matched.length > 0)
+    feedback.push(`✓ Variables: identified ${vars.matched.slice(0,3).join(", ")}`);
+  if (vars.missing.length > 0)
+    feedback.push(`✗ Variables: missing — ${vars.missing.slice(0,3).join(", ")}`);
+  if (evalMatched.length > 0)
+    feedback.push(`✓ Evaluation: mentioned ${evalMatched.join(", ")}`);
+  if (evalMissing.length > 0)
+    feedback.push(`✗ Evaluation: missing — ${evalMissing.join(", ")}`);
+  phraseResults.forEach(p => {
+    if (p.found) feedback.push(`✓ AQA phrase found: "${p.phrase}"`);
+    else         feedback.push(`✗ AQA phrase missing: "${p.phrase}" — examiners look for this exact wording`);
+  });
+
+  // ── Build next steps ──
+  const next_steps = [];
+  if (method.score < (rules.method_marks||3))
+    next_steps.push(`Include more method detail — key terms not found: ${method.missing.slice(0,3).join(", ")}.`);
+  if (likelyDescribingResults)
+    next_steps.push(AQA_PATTERNS.common_mistakes[0].next_step);
+  if (!mentionsMeasurement)
+    next_steps.push(AQA_PATTERNS.common_mistakes[1].next_step);
+  if (!mentionsControl)
+    next_steps.push(AQA_PATTERNS.common_mistakes[2].next_step);
+  if (!matchesWithSynonyms("repeat"))
+    next_steps.push("State that you would repeat the experiment to improve reliability.");
+  if (!matches("calculate a mean") && !matchesWithSynonyms("mean"))
+    next_steps.push("Use the phrase 'calculate a mean' — AQA examiners look for this exact wording.");
+  if (!matches("identify anomalous results") && !matchesWithSynonyms("anomalous"))
+    next_steps.push("Use the phrase 'identify anomalous results' — AQA examiners look for this exact wording.");
+  if (!matches("control variables") && vars.score < (rules.variable_marks||2))
+    next_steps.push("Use the phrase 'control variables' and name them — e.g. 'I would control the temperature using a water bath'.");
+
+  return {
+    score: rounded, max_score: 6,
+    breakdown: {
+      method:      { score: method.score,                max: rules.method_marks   ||3, matched: method.matched,  missing: method.missing },
+      variables:   { score: vars.score,                  max: rules.variable_marks ||2, matched: vars.matched,    missing: vars.missing },
+      evaluation:  { score: Math.round(evalScore*2)/2,   max: rules.evaluation_marks||2, matched: evalMatched,   missing: evalMissing },
+      aqa_phrases: { results: phraseResults }
+    },
+    feedback,
+    next_steps
+  };
+}
+
+
+const DATA = { rpas: [
+
+// ── 1. MICROSCOPY ───────────────────────────
+{ id:"microscopy", title:"Microscopy", paper:"P1", exam_weight:"medium", triple:false, noClapsttv:true,
+  overview:{
+    aim:"Use a light microscope to observe and draw cells, and calculate magnification.",
+    key_terms:[
+      {term:"Magnification", student_friendly:"How much bigger the image appears compared to the real object.", exam_definition:"Magnification = image size ÷ real size"},
+      {term:"Resolution", student_friendly:"How much detail you can see — the ability to tell two points apart.", exam_definition:"The ability to distinguish between two points that are close together"},
+      {term:"Eyepiece graticule", student_friendly:"A ruler built into the eyepiece of the microscope, used to measure the size of cells.", exam_definition:"A scale fitted to the eyepiece of a microscope used to measure objects"}
+    ],
+    clapsttv:[],iv:"",dv:"",
+    method:{
+      foundation:"Add a thin section of tissue to a glass slide. Add a drop of iodine solution stain and place a coverslip carefully to avoid air bubbles. Focus using the lowest power objective lens first, then increase magnification to get a clearer view.",
+      higher:"Prepare a thin section of tissue and add a drop of iodine solution stain. Lower the coverslip at an angle to prevent air bubbles. Start on the lowest power objective lens. Use coarse focus first, then fine focus to sharpen the image. Switch to a higher power objective lens. Use the eyepiece graticule to measure the cell. Calculate actual size using: Actual size = Image size ÷ Magnification."
+    },
+    improvements:{
+      foundation:[
+        "Repeat observations on multiple cells to check your results are consistent",
+        "Use a stage micrometer to check the accuracy of your measurements"
+      ],
+      higher:[
+        "Repeat observations on multiple cells and calculate a mean cell size",
+        "Use a calibrated eyepiece graticule checked against a stage micrometer for more precise measurement",
+        "Use a digital microscope or camera attachment to capture images — measurements can then be taken more accurately from the image",
+        "Use more precise measuring instruments with a smaller scale division to reduce measurement uncertainty"
+      ]
+    },
+    magnification_section:true, units_section:true
+  },
+  flashcards:[
+    {id:"fc1",question:"What is the formula for magnification?",answer_foundation:"Magnification = image size ÷ actual size",answer_higher:"Magnification = image size ÷ actual size. Rearranged: Actual size = image size ÷ magnification"},
+    {id:"fc2",question:"How many millimetres are in a metre?",answer_foundation:"1,000 mm in a metre",answer_higher:"1,000 mm in a metre (1 m = 1,000 mm)"},
+    {id:"fc3",question:"How many micrometres (µm) are in a millimetre?",answer_foundation:"1,000 µm in a millimetre",answer_higher:"1,000 µm in 1 mm — to convert mm to µm, multiply by 1,000"},
+    {id:"fc4",question:"If the eyepiece lens is ×10 and the objective lens is ×40, what is the total magnification?",answer_foundation:"×400 total magnification",answer_higher:"Total magnification = eyepiece × objective = 10 × 40 = ×400"},
+    {id:"fc5",question:"Give one advantage of a light microscope over an electron microscope.",answer_foundation:"Cheaper and easier to use",answer_higher:"Light microscopes are cheaper, easier to use, and can view living specimens — electron microscopes require a vacuum so specimens must be dead"},
+    {id:"fc6",question:"Give one advantage of an electron microscope over a light microscope.",answer_foundation:"You can see in much more detail — it has higher resolution",answer_higher:"Electron microscopes have much higher resolution (up to ×2,000,000 magnification) so you can see finer detail such as organelles"},
+    {id:"fc7",question:"Why do we stain cells before viewing under a microscope?",answer_foundation:"To make the cells easier to see",answer_higher:"Stains bind to specific structures (e.g. iodine solution stain makes starch blue-black), making organelles and cell structures visible"}
+  ],
+  questions:[{id:"q1",type:"6_mark",question_text:"Describe how to prepare and view a slide of onion cells using a light microscope. Include how you would calculate magnification and improve the reliability of your observations. [6 marks]",marks:6}],
+  mark_scheme:{
+    method_keywords:["slide","stain","iodine","coverslip","microscope","focus","low power","high power","objective","coarse","fine"],
+    variable_keywords:["light","magnification","stain","objective","focus"],
+    evaluation_keywords:["repeat","mean","anomalous"],
+    marking_rules:{method_marks:3,variable_marks:1,evaluation_marks:2}
+  }
+},
+
+// ── 2. OSMOSIS ──────────────────────────────
+{ id:"osmosis", title:"Osmosis in Potato Cylinders", paper:"P1", exam_weight:"high", triple:false,
+  overview:{
+    aim:"Investigate the effect of different concentrations of sucrose solution on osmosis in potato tissue.",
+    key_terms:[
+      {term:"Osmosis", student_friendly:"The movement of water from a dilute to a more concentrated solution through a partially permeable membrane.", exam_definition:"The movement of water from a dilute to a more concentrated solution through a partially permeable membrane"},
+      {term:"Partially permeable membrane", student_friendly:"A membrane with tiny holes that only let small molecules (like water) pass through — larger molecules such as sugar cannot.", exam_definition:"A membrane that allows the passage of water molecules but not larger solute molecules"},
+      {term:"Isotonic point", student_friendly:"The concentration of solution where the potato neither gains nor loses mass — water moves equally in both directions.", exam_definition:"The point at which the concentration of the solution equals the concentration inside the cells, so there is no net movement of water"}
+    ],
+    clapsttv:[
+      {letter:"C",label:"Concentration of sucrose solution",role:"IV"},
+      {letter:"L",label:"—",role:null},
+      {letter:"A",label:"Surface area of potato cylinder",role:"Control"},
+      {letter:"P",label:"—",role:null},
+      {letter:"S",label:"Species / variety of potato",role:"Control"},
+      {letter:"T",label:"Time in solution",role:"Control"},
+      {letter:"T",label:"Temperature",role:"Control"},
+      {letter:"V",label:"Mass of potato / Volume of solution",role:"DV / Control"}
+    ],
+    iv:"Concentration of sucrose solution (mol/dm³)",
+    dv:"Percentage change in mass of potato cylinder (%)",
+    method:{
+      foundation:"Cut potato cylinders of equal length using a cork borer. Measure and record the mass of each cylinder. Place each cylinder into a different concentration of sucrose solution (e.g. 0.0, 0.2, 0.4, 0.6, 0.8, 1.0 mol/dm³). Leave for 30 minutes. Remove each cylinder, blot dry with paper towel, and re-weigh. Calculate the change in mass.",
+      higher:"Use a cork borer to cut potato cylinders of equal length. Measure and record the mass of each. Place in sucrose solutions ranging from 0.0 to 1.0 mol/dm³ in intervals of 0.2 mol/dm³. Leave for 30 minutes in a water bath at constant temperature. Remove, blot dry on a paper towel, and re-weigh. Calculate percentage change in mass: ((final − initial) ÷ initial) × 100. Plot results on a graph — the isotonic point is where the line crosses the x-axis (percentage change in mass = 0%)."
+    },
+    improvements:{
+      foundation:[
+        "Repeat each concentration three times and calculate a mean percentage change in mass",
+        "Blot the potato surface consistently each time — inconsistent blotting affects the mass reading",
+        "Use a water bath to keep temperature constant throughout the experiment",
+        "Identify and exclude anomalous results before calculating the mean"
+      ],
+      higher:[
+        "Repeat each concentration three times and calculate a mean percentage change in mass",
+        "Blot the potato surface consistently — inconsistent blotting affects mass readings",
+        "Use a water bath to keep temperature constant — temperature affects the rate of osmosis",
+        "Use a cork borer and ruler to ensure all cylinders are the same length and diameter",
+        "Use a balance reading to 0.01 g — this is more precise and reduces measurement uncertainty",
+        "Identify and exclude anomalous results before calculating the mean"
+      ]
+    },
+    graph_section:{
+      type:"Line graph",
+      x_axis:"Concentration of sucrose solution (mol/dm³)",
+      y_axis:"Percentage change in mass (%)",
+      key_feature:"The isotonic point is where the line crosses the x-axis (% change in mass = 0%). At this concentration, the solution matches the potato's cell contents.",
+      line_type:"Line of best fit (smooth curve)",
+      mistakes:["Not labelling axes with units","Drawing a bar chart instead of a line graph","Plotting change in mass instead of percentage change in mass","Not marking the isotonic point on the x-axis"]
+    }
+  },
+  flashcards:[
+    {id:"fc1",question:"What is osmosis?",answer_foundation:"The movement of water from a dilute to a more concentrated solution through a partially permeable membrane",answer_higher:"The movement of water from a dilute to a more concentrated solution through a partially permeable membrane — net movement is down the water potential gradient"},
+    {id:"fc2",question:"Will a piece of potato placed in pure water gain or lose mass?",answer_foundation:"It will gain mass — water moves into the potato by osmosis",answer_higher:"It gains mass — pure water is more dilute than the potato cells, so water moves in by osmosis through the partially permeable membrane"},
+    {id:"fc3",question:"Why blot the potato dry before re-weighing?",answer_foundation:"To remove surface water so the mass reading only reflects water that has entered or left the potato",answer_higher:"Surface water would be included in the mass reading, giving a falsely high result — blotting ensures only the change in mass of the tissue is measured"},
+    {id:"fc4",question:"Why calculate percentage change in mass rather than actual change?",answer_foundation:"Because the potato cylinders might not all start at exactly the same mass, so percentage makes them comparable",answer_higher:"Percentage change accounts for differences in starting mass, making results from different cylinders directly comparable"},
+    {id:"fc5",question:"What does the isotonic point tell you?",answer_foundation:"The concentration of solution that matches the concentration inside the potato cells",answer_higher:"The isotonic point is where the line crosses the x-axis (0% change in mass) — at this concentration there is no net movement of water"},
+    {id:"fc6",question:"Which word beginning with 'D' means 'not very concentrated'?",answer_foundation:"Dilute",answer_higher:"Dilute — a dilute solution has a low concentration of solute"},
+    {id:"fc7",question:"What word beginning with 'A' describes a result that does not fit the pattern?",answer_foundation:"Anomalous",answer_higher:"Anomalous — an anomalous result should be identified and excluded before calculating the mean"},
+    {id:"fc8",question:"Which variable always goes on the x-axis of a graph?",answer_foundation:"The independent variable — the one you change",answer_higher:"The independent variable (IV) goes on the x-axis; the dependent variable (DV) goes on the y-axis"}
+  ],
+  questions:[{id:"q1",type:"6_mark",question_text:"A student investigates osmosis using potato cylinders in different concentrations of sucrose solution. Describe how to carry out this investigation, including how to make the results reliable and valid. [6 marks]",marks:6}],
+  mark_scheme:{
+    method_keywords:["potato","mass","sucrose","solution","weigh","blot","concentration","percentage","cork borer","30 minutes"],
+    variable_keywords:["concentration","temperature","mass","size","volume","time","control"],
+    evaluation_keywords:["repeat","mean","anomalous"],
+    marking_rules:{method_marks:3,variable_marks:1,evaluation_marks:2}
+  }
+},
+
+// ── 3. FOOD TESTS ───────────────────────────
+{ id:"food_tests", title:"Food Tests", paper:"P1", exam_weight:"medium", triple:false,
+  overview:{
+    aim:"Use chemical tests to identify starch, reducing sugars, proteins and lipids in food samples.",
+    key_terms:[
+      {term:"Iodine solution", student_friendly:"Tests for starch — turns blue-black if starch is present.", exam_definition:"A reagent that turns from orange-brown to blue-black in the presence of starch"},
+      {term:"Benedict's solution", student_friendly:"Tests for reducing sugars (e.g. glucose) — turns orange or brick-red when heated.", exam_definition:"A blue reagent that changes to orange/brick-red when heated with a reducing sugar"},
+      {term:"Biuret reagent", student_friendly:"Tests for proteins — turns purple or lilac if protein is present.", exam_definition:"A reagent that turns from blue to purple/lilac in the presence of protein (peptide bonds)"},
+      {term:"Emulsion test", student_friendly:"Tests for lipids — a cloudy white emulsion forms if fat is present.", exam_definition:"A test for lipids: the sample is mixed with ethanol, then water is added — a cloudy white emulsion forms if lipids are present"}
+    ],
+    clapsttv:[
+      {letter:"C",label:"Concentration of reagent",role:"Control"},
+      {letter:"L",label:"—",role:null},
+      {letter:"A",label:"—",role:null},
+      {letter:"P",label:"—",role:null},
+      {letter:"S",label:"Food sample type",role:"IV"},
+      {letter:"T",label:"Time of heating",role:"Control"},
+      {letter:"T",label:"Temperature of water bath",role:"Control"},
+      {letter:"V",label:"Volume of sample and reagent",role:"Control"}
+    ],
+    iv:"Type of food sample tested",
+    dv:"Colour change of the reagent",
+    method:{
+      foundation:"Add a drop of iodine solution to the food sample — blue-black means starch is present. Add Benedict's solution and heat in a water bath — orange or brick-red means reducing sugar is present. Add Biuret reagent — purple or lilac means protein is present. Mix the sample with ethanol, then add water — a cloudy white emulsion means lipid is present.",
+      higher:"For each test, use a consistent volume of food sample (e.g. 2 cm³) measured with a syringe. Starch: add 5 drops of iodine solution and observe the colour change. Reducing sugar: add an equal volume of Benedict's solution, heat at 80°C in a water bath for 2 minutes, and compare against a colour chart. Protein: add an equal volume of Biuret solution A then B and observe after 1 minute. Lipid: dissolve the sample in ethanol, then add to water and shake — a cloudy white emulsion confirms lipid is present. Include a negative control (distilled water) and a positive control (known starch or glucose solution) for each test."
+    },
+    improvements:{
+      foundation:[
+        "Use a positive control and a negative control for each test to confirm the reagents are working correctly",
+        "Use syringes to measure volumes of sample and reagent accurately",
+        "Repeat all tests and record consistent results"
+      ],
+      higher:[
+        "Use a positive control and a negative control for each test",
+        "Use syringes to measure volumes accurately — this reduces variation between tests",
+        "Compare colours against a standard colour chart to reduce subjectivity in results",
+        "Use a colorimeter to measure colour intensity — this gives more precise, objective results than visual observation",
+        "Repeat all tests and calculate a mean result where possible"
+      ]
+    }
+  },
+  flashcards:[
+    {id:"fc1",question:"What colour change shows starch is present?",answer_foundation:"Iodine solution turns blue-black",answer_higher:"Iodine solution changes from orange-brown to blue-black in the presence of starch"},
+    {id:"fc2",question:"What does Benedict's solution test for and what is a positive result?",answer_foundation:"Reducing sugars — turns orange or brick-red when heated",answer_higher:"Benedict's tests for reducing sugars (e.g. glucose). A positive result changes from blue to orange/brick-red when heated at 80°C"},
+    {id:"fc3",question:"What does Biuret reagent test for and what is a positive result?",answer_foundation:"Protein — turns purple or lilac",answer_higher:"Biuret reagent tests for protein. It turns from blue to purple/lilac in the presence of peptide bonds"},
+    {id:"fc4",question:"What is the test for lipids and what is a positive result?",answer_foundation:"Mix with ethanol then add water — a cloudy white emulsion means lipid is present",answer_higher:"The emulsion test: dissolve the sample in ethanol, then add water. A cloudy white emulsion forms if lipids are present"},
+    {id:"fc5",question:"Carbohydrates are made up from what type of sugars?",answer_foundation:"Simple sugars",answer_higher:"Simple sugars (monosaccharides) — e.g. glucose. These join together to form complex carbohydrates like starch"},
+    {id:"fc6",question:"Why use a negative control in food tests?",answer_foundation:"To check the reagent itself is not producing a colour change",answer_higher:"A negative control (distilled water + reagent) confirms the reagent alone does not produce a colour change, so any result seen must be due to the food sample"}
+  ],
+  questions:[{id:"q1",type:"6_mark",question_text:"Describe how to test a food sample for the presence of starch and reducing sugars. Include the reagents used, the results you would expect, and how you would make the tests reliable. [6 marks]",marks:6}],
+  mark_scheme:{
+    method_keywords:["iodine","Benedict","heat","water bath","blue-black","orange","brick-red","starch","glucose","reducing sugar"],
+    variable_keywords:["temperature","volume","control","positive control","negative control","syringe"],
+    evaluation_keywords:["repeat","mean","anomalous"],
+    marking_rules:{method_marks:3,variable_marks:1,evaluation_marks:2}
+  }
+},
+
+// ── 4. ENZYME ACTIVITY ──────────────────────
+{ id:"enzyme_activity", title:"Enzyme Activity (Amylase)", paper:"P1", exam_weight:"high", triple:false,
+  overview:{
+    aim:"Investigate the effect of pH on the rate of amylase activity.",
+    key_terms:[
+      {term:"Buffer solution", student_friendly:"A solution that keeps the pH constant at a set value, so you can test one pH at a time.", exam_definition:"A solution that resists changes in pH when small amounts of acid or alkali are added"},
+      {term:"Iodine solution", student_friendly:"The orange-brown liquid used to test for starch — it turns blue-black if starch is still present.", exam_definition:"A reagent that turns from orange-brown to blue-black in the presence of starch"},
+      {term:"Rate of reaction", student_friendly:"How fast the reaction happens — measured by how quickly the starch disappears.", exam_definition:"The change in quantity of reactant or product per unit time"},
+      {term:"Optimum pH", student_friendly:"The pH at which the enzyme works fastest.", exam_definition:"The pH at which an enzyme has maximum activity"}
+    ],
+    clapsttv:[
+      {letter:"C",label:"Concentration of amylase and starch",role:"Control"},
+      {letter:"L",label:"—",role:null},
+      {letter:"A",label:"—",role:null},
+      {letter:"P",label:"pH of buffer solution",role:"IV"},
+      {letter:"S",label:"Species / source of enzyme",role:"Control"},
+      {letter:"T",label:"Time intervals for sampling",role:"Control"},
+      {letter:"T",label:"Temperature (water bath at 35°C)",role:"Control"},
+      {letter:"V",label:"Volume of amylase, starch and buffer",role:"Control"}
+    ],
+    iv:"pH of buffer solution",
+    dv:"Time taken for starch to be fully broken down (s)",
+    method:{
+      foundation:"Set up a spotting tile with drops of iodine solution. Mix amylase, starch and a buffer solution at a set pH. Every minute, place a drop on the spotting tile and observe the colour. Record how long until the iodine solution stops turning blue-black — this means the starch has been fully broken down. Repeat with different pH buffer solutions.",
+      higher:"Set up a water bath at 35°C. Prepare tubes of amylase + starch + buffer solution at each pH (e.g. pH 4, 5, 6, 7, 8). At 10-second intervals, transfer a drop onto a spotting tile containing iodine solution. Record the time when the iodine solution stays orange-brown — this means the starch has been fully digested. Calculate rate = 1000 ÷ time (s). Repeat three times at each pH, calculate the mean rate, and identify and discard anomalous results."
+    },
+    improvements:{
+      foundation:[
+        "Repeat the experiment at each pH and calculate a mean result",
+        "Use a water bath to keep temperature constant — temperature also affects enzyme activity",
+        "Use syringes to measure volumes of amylase, starch and buffer accurately",
+        "Identify anomalous results and exclude them before calculating the mean"
+      ],
+      higher:[
+        "Repeat the experiment at each pH and calculate a mean rate",
+        "Use a water bath with a thermometer to monitor and maintain temperature precisely",
+        "Use syringes rather than measuring cylinders — syringes have a smaller scale division and are more precise",
+        "Use a pH meter rather than pH paper for more accurate measurement of buffer pH",
+        "Use a colorimeter to detect the colour change automatically — this gives more objective, continuous results than visual observation of a spotting tile",
+        "Identify anomalous results and exclude them before calculating the mean"
+      ]
+    },
+    graph_section:{
+      type:"Line graph",
+      x_axis:"pH",
+      y_axis:"Rate of reaction (s⁻¹) — calculated as 1000 ÷ time",
+      key_feature:"The peak of the curve shows the optimum pH — the pH at which amylase is most active. The curve drops steeply either side as conditions move away from optimum.",
+      line_type:"Smooth curve (not point-to-point)",
+      mistakes:["Plotting time instead of rate (1000÷t)","Drawing a straight line of best fit instead of a curve","Not labelling the optimum pH on the x-axis","Forgetting units on axes"]
+    }
+  },
+  flashcards:[
+    {id:"fc1",question:"What is the purpose of the buffer solution?",answer_foundation:"To keep the pH constant at a set value throughout the experiment",answer_higher:"A buffer solution resists changes in pH, ensuring the pH stays at the intended value so the experiment is a fair test"},
+    {id:"fc2",question:"Why use a water bath in this experiment?",answer_foundation:"To keep the temperature the same — temperature also affects enzyme activity",answer_higher:"Temperature affects the rate of enzyme activity, so a water bath ensures temperature is constant and does not act as an uncontrolled variable"},
+    {id:"fc3",question:"What does it mean when the iodine solution stays orange-brown?",answer_foundation:"All the starch has been broken down by amylase",answer_higher:"The iodine solution stays orange-brown because there is no starch left — the amylase has fully digested the starch"},
+    {id:"fc4",question:"How do you calculate the rate of reaction from time results?",answer_foundation:"The faster the starch disappears, the higher the rate",answer_higher:"Rate = 1000 ÷ time (in seconds). This gives a rate in s⁻¹, making it easy to compare across different pH values"},
+    {id:"fc5",question:"What happens to enzymes at very high temperatures?",answer_foundation:"They stop working — they are denatured",answer_higher:"At high temperatures the enzyme is denatured — the active site changes shape so the substrate can no longer fit, and the enzyme permanently stops working"},
+    {id:"fc6",question:"What term describes the best pH for an enzyme to work?",answer_foundation:"The optimum pH",answer_higher:"The optimum pH — at this pH the enzyme has the highest rate of activity. Moving away from the optimum pH reduces enzyme activity"},
+    {id:"fc7",question:"At low temperatures, why do enzymes work slowly?",answer_foundation:"Because the particles have less energy and collide less often",answer_higher:"At low temperatures enzymes and substrates have less kinetic energy, so successful collisions between enzyme active sites and substrates are less frequent, reducing the rate of reaction"},
+    {id:"fc8",question:"What shape changes when an enzyme denatures?",answer_foundation:"The active site changes shape",answer_higher:"The active site changes shape — the substrate can no longer fit, so the enzyme can no longer catalyse the reaction"}
+  ],
+  questions:[{id:"q1",type:"6_mark",question_text:"Describe and evaluate how a student could investigate the effect of pH on the rate of amylase activity. [6 marks]",marks:6}],
+  mark_scheme:{
+    method_keywords:["buffer","amylase","starch","iodine","pH","water bath","spotting tile","temperature","time","35"],
+    variable_keywords:["pH","temperature","concentration","volume","control"],
+    evaluation_keywords:["repeat","mean","anomalous"],
+    marking_rules:{method_marks:3,variable_marks:1,evaluation_marks:2}
+  }
+},
+
+// ── 5. PHOTOSYNTHESIS ───────────────────────
+{ id:"photosynthesis", title:"Photosynthesis Rate", paper:"P1", exam_weight:"high", triple:false,
+  overview:{
+    aim:"Investigate the effect of light intensity on the rate of photosynthesis using aquatic pondweed.",
+    key_terms:[
+      {term:"Photosynthesis", student_friendly:"The process plants use to make glucose from carbon dioxide and water using light energy.", exam_definition:"A process that uses light energy to convert carbon dioxide and water into glucose and oxygen in chloroplasts"},
+      {term:"Light intensity", student_friendly:"How bright the light is — increases as you move the lamp closer to the plant.", exam_definition:"The amount of light energy per unit area per unit time, which decreases with increasing distance from the source"},
+      {term:"Limiting factor", student_friendly:"Something that is in short supply and is slowing down the rate of photosynthesis.", exam_definition:"A factor that limits the rate of a reaction when it is in short supply, even if other conditions are favourable"}
+    ],
+    clapsttv:[
+      {letter:"C",label:"CO₂ concentration (sodium hydrogen carbonate)",role:"Control"},
+      {letter:"L",label:"Light intensity (lamp distance)",role:"IV"},
+      {letter:"A",label:"—",role:null},
+      {letter:"P",label:"—",role:null},
+      {letter:"S",label:"Species of pondweed",role:"Control"},
+      {letter:"T",label:"Time per bubble count (1 minute)",role:"Control"},
+      {letter:"T",label:"Temperature",role:"Control"},
+      {letter:"V",label:"Volume of oxygen produced (bubbles per minute)",role:"DV"}
+    ],
+    iv:"Light intensity (distance of lamp from pondweed in cm)",
+    dv:"Number of oxygen bubbles produced per minute",
+    method:{
+      foundation:"Place pondweed in a beaker of water. Shine a lamp at different distances from the pondweed. Count the oxygen bubbles produced in one minute at each distance. Repeat for each distance.",
+      higher:"Set up pondweed (e.g. Elodea) in sodium hydrogen carbonate solution to maintain CO₂ levels. Position the lamp at set distances (e.g. 10, 20, 30, 40, 50 cm). Allow 2 minutes for the plant to adjust to each new light level before counting. Count bubbles produced per minute. Repeat three times at each distance. Calculate the mean bubble rate. Plot light intensity (1/d²) against mean bubble count."
+    },
+    improvements:{
+      foundation:[
+        "Repeat counts at each distance three times and calculate a mean",
+        "Keep temperature constant using a heat filter between the lamp and the pondweed",
+        "Control CO₂ concentration by using sodium hydrogen carbonate solution",
+        "Identify and exclude anomalous results before calculating the mean"
+      ],
+      higher:[
+        "Repeat counts at each distance three times and calculate a mean",
+        "Use a gas syringe instead of counting bubbles — this measures the volume of oxygen produced directly and is more precise",
+        "Use a light sensor or data logger to measure light intensity at each distance rather than relying on lamp distance alone",
+        "Use a thermometer and water bath to monitor and control temperature precisely",
+        "Control CO₂ concentration using sodium hydrogen carbonate solution",
+        "Identify and exclude anomalous results before calculating the mean"
+      ]
+    },
+    graph_section:{
+      type:"Line graph",
+      x_axis:"Light intensity (1/d², where d = distance in cm) — or simply distance from lamp (cm)",
+      y_axis:"Rate of photosynthesis (bubbles per minute, or cm³ O₂ per minute if using gas syringe)",
+      key_feature:"The graph shows a curve that levels off (plateaus) at high light intensities — at this point another factor (e.g. CO₂ or temperature) becomes the limiting factor. The steep part of the curve shows light is the limiting factor.",
+      line_type:"Smooth curve of best fit",
+      mistakes:["Using distance on the x-axis without explaining that closer = higher intensity","Drawing a straight line when the curve levels off","Not identifying the limiting factor at the plateau","Forgetting units on axes"]
+    }
+  },
+  flashcards:[
+    {id:"fc1",question:"What is the dependent variable in this experiment?",answer_foundation:"The number of oxygen bubbles produced per minute",answer_higher:"The rate of oxygen production (bubbles per minute), used as a measure of the rate of photosynthesis"},
+    {id:"fc2",question:"Why use sodium hydrogen carbonate solution?",answer_foundation:"To make sure the plant always has enough carbon dioxide",answer_higher:"Sodium hydrogen carbonate dissolves in water to release CO₂, ensuring CO₂ concentration is controlled and does not become a limiting factor"},
+    {id:"fc3",question:"Why wait 2 minutes before counting bubbles at each new distance?",answer_foundation:"To give the plant time to adjust to the new light level before counting",answer_higher:"The plant needs time to reach a new steady rate of photosynthesis at each light intensity before measurements are taken"},
+    {id:"fc4",question:"Why is counting bubbles not the most accurate method?",answer_foundation:"Bubbles can be different sizes so counting them is not perfectly accurate",answer_higher:"Bubbles vary in size, making bubble counts an imprecise measure of oxygen produced. A gas syringe measures volume directly, which is more precise"},
+    {id:"fc5",question:"Increasing light intensity makes the rate of photosynthesis do what?",answer_foundation:"Increase — up to a point",answer_higher:"Increase — but only up to a point. Once light is no longer the limiting factor, another factor (e.g. CO₂ or temperature) limits the rate"},
+    {id:"fc6",question:"Which waste product of photosynthesis is useful to animals?",answer_foundation:"Oxygen",answer_higher:"Oxygen — released as a by-product of photosynthesis and used by animals (and plants) for aerobic respiration"},
+    {id:"fc7",question:"If the temperature gets too high, what happens in the plant?",answer_foundation:"Enzymes stop working properly",answer_higher:"Enzymes involved in photosynthesis are denatured at high temperatures — their active sites change shape and the rate of photosynthesis falls"},
+    {id:"fc8",question:"Which test uses iodine to detect a product of photosynthesis?",answer_foundation:"The starch test — iodine turns blue-black if starch is present",answer_higher:"The iodine test for starch — starch is a storage product of photosynthesis. Iodine solution turns blue-black in its presence"}
+  ],
+  questions:[{id:"q1",type:"6_mark",question_text:"Describe how to investigate the effect of light intensity on the rate of photosynthesis using pondweed. Explain how you would improve the reliability and accuracy of your results. [6 marks]",marks:6}],
+  mark_scheme:{
+    method_keywords:["pondweed","bubbles","oxygen","lamp","distance","count","minute","light","sodium hydrogen carbonate","Elodea"],
+    variable_keywords:["light intensity","temperature","carbon dioxide","CO2","distance","control"],
+    evaluation_keywords:["repeat","mean","anomalous"],
+    marking_rules:{method_marks:3,variable_marks:1,evaluation_marks:2}
+  }
+},
+
+// ── 6. REACTION TIME ────────────────────────
+{ id:"reaction_time", title:"Reaction Time", paper:"P2", exam_weight:"medium", triple:false,
+  overview:{
+    aim:"Measure and compare human reaction time using the ruler drop test, and investigate factors affecting it.",
+    key_terms:[
+      {term:"Reaction time", student_friendly:"How quickly you respond to something you see or hear.", exam_definition:"The time taken to respond to a stimulus"},
+      {term:"Stimulus", student_friendly:"The thing you are responding to — in this case, the ruler being dropped.", exam_definition:"A change in the environment detected by a receptor that triggers a response"},
+      {term:"Random error", student_friendly:"Variation that happens by chance and cannot be avoided, but can be reduced by repeating the experiment.", exam_definition:"Unpredictable variation in measurements that causes results to be scattered around the true value"}
+    ],
+    clapsttv:[
+      {letter:"C",label:"Caffeine / alertness level",role:"Control"},
+      {letter:"L",label:"—",role:null},
+      {letter:"A",label:"Age / physical condition",role:"Control"},
+      {letter:"P",label:"—",role:null},
+      {letter:"S",label:"Same participant throughout",role:"Control"},
+      {letter:"T",label:"Time of day",role:"Control"},
+      {letter:"T",label:"Temperature of room",role:"Control"},
+      {letter:"V",label:"—",role:null}
+    ],
+    iv:"Condition being tested (e.g. distracted vs. focused)",
+    dv:"Distance the ruler falls before being caught (cm)",
+    method:{
+      foundation:"The participant rests their dominant hand at the edge of a table. Their partner holds a ruler vertically, with the 0 cm mark level with the top of the participant's hand. The ruler is dropped without any warning or countdown. The participant catches it as quickly as possible. Measure the distance fallen in cm. Repeat 5 times. Calculate the mean and identify any anomalous results.",
+      higher:"The participant rests their dominant hand at the edge of a table. Their partner holds a ruler with the 0 cm mark level with the top of the participant's hand. The ruler is dropped at a random moment — no warning or countdown. The participant catches it as quickly as possible. Measure the distance fallen in cm. Repeat 10 times. Calculate the mean and identify any anomalous results."
+    },
+    improvements:{
+      foundation:[
+        "Repeat the test several times and calculate a mean to reduce the effect of random error",
+        "Always drop the ruler without a warning or countdown to prevent anticipation",
+        "Use the same participant throughout to keep variables controlled",
+        "Identify and exclude anomalous results before calculating the mean"
+      ],
+      higher:[
+        "Repeat the test at least 10 times and calculate a mean to reduce the effect of random error",
+        "Use a digital reaction timer or computer-based reaction test — this is more precise than a ruler and removes human error in reading the scale",
+        "Drop the ruler at random intervals to prevent the participant from anticipating the drop",
+        "Use the same participant and same conditions throughout",
+        "Identify and exclude anomalous results (e.g. where the participant clearly anticipated the drop) before calculating the mean"
+      ]
+    }
+  },
+  flashcards:[
+    {id:"fc1",question:"What is measured in the ruler drop test?",answer_foundation:"The distance (in cm) the ruler falls before the person catches it",answer_higher:"The distance (cm) the ruler falls — a smaller distance means a faster reaction time"},
+    {id:"fc2",question:"Why must the ruler be dropped without warning?",answer_foundation:"So the person is actually reacting, not just guessing when it will drop",answer_higher:"A warning allows anticipation of the drop, which would artificially reduce the measured reaction time"},
+    {id:"fc3",question:"Why repeat the test many times and calculate a mean?",answer_foundation:"To get a more reliable result and reduce the effect of random variation",answer_higher:"Repeating reduces the effect of random errors, and calculating a mean gives a more representative and reliable value"},
+    {id:"fc4",question:"What is a stimulus?",answer_foundation:"A change in the environment that you respond to",answer_higher:"A change in the internal or external environment that is detected by a receptor and triggers a response"},
+    {id:"fc5",question:"What are the cells of the nervous system called?",answer_foundation:"Neurones",answer_higher:"Neurones — not nerves. A nerve is a bundle of neurones"},
+    {id:"fc6",question:"What are reflexes for?",answer_foundation:"To protect us from harm or danger quickly",answer_higher:"Reflexes are rapid, automatic responses to stimuli that protect us from harm — they do not involve conscious thought"}
+  ],
+  questions:[{id:"q1",type:"6_mark",question_text:"Describe how to use the ruler drop test to measure reaction time. Explain how you would make your results reliable and valid, and identify possible sources of error. [6 marks]",marks:6}],
+  mark_scheme:{
+    method_keywords:["ruler","distance","drop","catch","cm","stimulus","measure","dominant hand","repeat"],
+    variable_keywords:["person","same","ruler","condition","control","anticipate","warning","random"],
+    evaluation_keywords:["repeat","mean","anomalous"],
+    marking_rules:{method_marks:3,variable_marks:1,evaluation_marks:2}
+  }
+},
+
+// ── 7. PLANT TROPISMS ── Triple only ─────────
+{ id:"tropisms", title:"Plant Responses (Tropisms & Germination)", paper:"P2", exam_weight:"medium", triple:true,
+  overview:{
+    aim:"Investigate the effect of the direction of a light source on the growth of seedlings (phototropism).",
+    key_terms:[
+      {term:"Tropism", student_friendly:"When a plant grows towards or away from a stimulus like light or gravity.", exam_definition:"A directional growth response of a plant to a directional stimulus"},
+      {term:"Phototropism", student_friendly:"Growing towards light — shoots do this to absorb more light for photosynthesis.", exam_definition:"Growth of a plant shoot towards a unidirectional light source"},
+      {term:"Auxin", student_friendly:"A plant hormone that controls growth. More auxin on one side makes that side grow longer, causing the shoot to bend.", exam_definition:"A plant hormone that promotes cell elongation; it accumulates on the shaded side of a shoot, causing it to grow towards light"}
+    ],
+    clapsttv:[
+      {letter:"C",label:"—",role:null},
+      {letter:"L",label:"Direction / intensity of light source",role:"IV"},
+      {letter:"A",label:"Area of shoot exposed to light",role:"Control"},
+      {letter:"P",label:"—",role:null},
+      {letter:"S",label:"Species of seedling",role:"Control"},
+      {letter:"T",label:"Time of growth measured",role:"Control"},
+      {letter:"T",label:"Temperature",role:"Control"},
+      {letter:"V",label:"Volume of water given to each seedling",role:"Control"}
+    ],
+    iv:"Direction of light source",
+    dv:"Angle of shoot growth from vertical (degrees)",
+    method:{
+      foundation:"Germinate seeds of the same species. Once shoots appear, place them in a box with a hole on one side. Place a lamp outside the hole. Observe the direction of shoot growth after several days.",
+      higher:"Germinate seeds of the same species. Once shoots appear, place in a box with a single hole in one side so only one direction of light enters. Measure the angle of shoot growth from vertical using a protractor every 24 hours for 5 days. Repeat with multiple seedlings. Calculate the mean angle of bending. Include a control group with light from all directions to compare against."
+    },
+    improvements:{
+      foundation:[
+        "Use multiple seedlings and calculate a mean angle of bending",
+        "Include a control group with all-round lighting",
+        "Keep temperature and watering consistent throughout"
+      ],
+      higher:[
+        "Use multiple seedlings and calculate a mean angle of bending to improve reliability",
+        "Include a control group grown with light from all directions",
+        "Use a protractor to measure angle of growth objectively rather than estimating by eye",
+        "Keep temperature and watering consistent — use a controlled growth cabinet if available",
+        "Use a digital camera to photograph seedlings at regular intervals to track growth more precisely"
+      ]
+    }
+  },
+  flashcards:[
+    {id:"fc1",question:"What does the word 'tropism' mean?",answer_foundation:"Growth in a particular direction in response to a stimulus",answer_higher:"A directional growth response of a plant to a directional stimulus — e.g. light, gravity, water or touch"},
+    {id:"fc2",question:"Name two stimuli that plants can detect.",answer_foundation:"Light and gravity",answer_higher:"Light, gravity, water, and touch — plants can respond to all of these"},
+    {id:"fc3",question:"What causes the shoot to bend towards the light?",answer_foundation:"A hormone called auxin moves to the shaded side and makes it grow more",answer_higher:"Auxin is redistributed to the shaded side of the shoot. Higher auxin concentration causes greater cell elongation on that side, making the shoot bend towards the light"},
+    {id:"fc4",question:"If a seed germinates, what does that mean?",answer_foundation:"The seed starts to grow into a plant",answer_higher:"Germination is the process by which a seed begins to grow — the embryo emerges and the seedling develops"},
+    {id:"fc5",question:"Which direction would a plant grow if it showed negative gravitropism?",answer_foundation:"Away from the ground — upwards",answer_higher:"Away from gravity — shoots show negative gravitropism (grow upwards), while roots show positive gravitropism (grow downwards)"},
+    {id:"fc6",question:"What is it about auxin that causes plants to grow in a particular direction?",answer_foundation:"Uneven distribution of auxin causes uneven growth on each side",answer_higher:"Uneven distribution of auxin causes differential cell elongation — the side with more auxin grows faster, causing the shoot to bend towards the light source"}
+  ],
+  questions:[{id:"q1",type:"6_mark",question_text:"Describe an investigation into phototropism in plant seedlings. Explain how you would control variables and improve the reliability of your results. [6 marks]",marks:6}],
+  mark_scheme:{
+    method_keywords:["seedling","light","growth","direction","angle","box","shoot","hole","days","lamp","protractor"],
+    variable_keywords:["light direction","temperature","water","species","control","angle"],
+    evaluation_keywords:["repeat","mean","anomalous"],
+    marking_rules:{method_marks:3,variable_marks:1,evaluation_marks:2}
+  }
+},
+
+// ── 8. ECOLOGY SAMPLING ─────────────────────
+{ id:"ecology_sampling", title:"Ecology Sampling", paper:"P2", exam_weight:"high", triple:false,
+  overview:{
+    aim:"Use quadrats and transects to estimate population size and investigate the distribution of organisms in a habitat.",
+    key_terms:[
+      {term:"Quadrat", student_friendly:"A square frame (1 m² or 0.5 m²) placed on the ground to count organisms inside it.", exam_definition:"A square frame of known area used to sample the distribution and abundance of organisms"},
+      {term:"Percentage cover", student_friendly:"An estimate of how much of the quadrat area is covered by a particular species — e.g. if a plant covers half the quadrat that is 50% cover. You estimate this by eye.", exam_definition:"An estimate of the proportion of the quadrat area covered by a particular species, expressed as a percentage"},
+      {term:"Transect", student_friendly:"A line you lay across a habitat to sample organisms at regular points along it — useful for showing how species change across an area.", exam_definition:"A line placed across a habitat along which organisms are sampled at regular intervals"},
+      {term:"Random sampling", student_friendly:"Placing quadrats using random numbers so you do not choose where to look — this removes bias from your results.", exam_definition:"A sampling method that ensures every point in an area has an equal chance of being sampled, eliminating bias"}
+    ],
+    clapsttv:[
+      {letter:"C",label:"—",role:null},
+      {letter:"L",label:"—",role:null},
+      {letter:"A",label:"Area sampled (quadrat size and number)",role:"Control"},
+      {letter:"P",label:"—",role:null},
+      {letter:"S",label:"Species recorded",role:"IV"},
+      {letter:"T",label:"Time of day sampling takes place",role:"Control"},
+      {letter:"T",label:"—",role:null},
+      {letter:"V",label:"—",role:null}
+    ],
+    iv:"Position in habitat (for transects) / species (for comparison)",
+    dv:"Frequency or percentage cover of species in each quadrat",
+    method:{
+      foundation:"Mark out the study area. Use random numbers to decide where to place the quadrat — for example use random number tables or a calculator to generate coordinates. Place the quadrat (1 m² or 0.5 m²) at each coordinate. Count the number of the target species inside the quadrat, or estimate percentage cover. Use a field guide, identification key or species ID app to identify any species you are unsure of. Repeat for at least 10 quadrats. Calculate the mean number per quadrat.",
+      higher:"Mark out the study area. Use random number tables to generate coordinates and place quadrats (1 m² or 0.5 m²) at each point. Count organisms and estimate percentage cover for each species. Repeat for at least 10 quadrats. Calculate mean number per quadrat. Multiply by (total area ÷ quadrat area) to estimate population size. For transects: place a tape measure across the habitat. Place a quadrat at regular intervals (e.g. every 2 m). Record species and percentage cover at each point. Also measure abiotic factors at each point — for example light intensity (using a light meter), soil pH (using a pH meter) and wind speed (using an anemometer). Use a field guide or identification app to identify species accurately."
+    },
+    improvements:{
+      foundation:[
+        "Increase the number of quadrats sampled to improve the accuracy of the population estimate",
+        "Use random number tables to place quadrats — this avoids investigator bias",
+        "Use a field guide or identification app to ensure species are identified correctly",
+        "Sample at the same time of day to reduce variation caused by animal movement",
+        "Identify and exclude anomalous quadrat results before calculating the mean"
+      ],
+      higher:[
+        "Increase the number of quadrats to improve accuracy and reduce the effect of random variation",
+        "Use random number tables to place quadrats and avoid investigator bias",
+        "Measure abiotic factors (e.g. light intensity, soil pH, wind speed) using calibrated instruments at each quadrat position",
+        "Use a light meter, pH meter and anemometer — these give more precise readings than visual estimates",
+        "Use a digital data logger to record abiotic conditions continuously throughout the sampling period",
+        "Use a field guide or identification app to identify species accurately",
+        "Sample at the same time of day and same time of year to allow fair comparison",
+        "Calculate mean percentage cover and identify any anomalous quadrat results"
+      ]
+    },
+    graph_section:{
+      type:"Bar chart (for species comparison) or kite diagram (for transects)",
+      x_axis:"Species name (bar chart) or distance along transect (kite diagram)",
+      y_axis:"Frequency or percentage cover (%)",
+      key_feature:"For transects, a kite diagram shows how species distribution changes across the habitat — wider sections mean higher abundance. Abiotic factor graphs (e.g. light intensity along a transect) can be plotted alongside to show correlations.",
+      line_type:"Bar chart — no line of best fit. Bars should not touch (different species).",
+      mistakes:["Drawing a line graph instead of a bar chart for species comparison","Not including abiotic factor data when investigating distribution","Placing bars too close together or connecting them","Forgetting to include units or labels on axes"]
+    }
+  },
+  flashcards:[
+    {id:"fc1",question:"What is a quadrat used for?",answer_foundation:"To count the number of organisms in a sample area of a habitat",answer_higher:"A quadrat (1 m² or 0.5 m²) is used to sample the distribution, abundance or percentage cover of organisms in a habitat"},
+    {id:"fc2",question:"Why must quadrat placement be random?",answer_foundation:"To avoid bias — you might only count in places where there are lots of organisms",answer_higher:"Random sampling ensures every part of the habitat has an equal chance of being sampled, eliminating investigator bias"},
+    {id:"fc3",question:"How do you estimate total population from quadrat data?",answer_foundation:"Find the mean number per quadrat, then multiply up to the whole area",answer_higher:"Calculate the mean number per quadrat, then multiply by (total area ÷ quadrat area) to estimate the total population size"},
+    {id:"fc4",question:"What is percentage cover and how do you measure it?",answer_foundation:"An estimate of how much of the quadrat is covered by a plant — you estimate it by eye as a percentage",answer_higher:"Percentage cover is estimated by eye as the proportion of the quadrat area covered by a species — useful for plants that are difficult to count individually"},
+    {id:"fc5",question:"What mathematical technique ensures quadrats are placed randomly?",answer_foundation:"Using random numbers or coordinates",answer_higher:"Random number tables (or a calculator) are used to generate coordinates — this gives every point in the area an equal chance of being selected"},
+    {id:"fc6",question:"What is the area of a quadrat with sides 0.5 m long?",answer_foundation:"0.25 m²",answer_higher:"0.25 m² (0.5 × 0.5 = 0.25). A 1 m × 1 m quadrat has an area of 1 m²"},
+    {id:"fc7",question:"Name two abiotic factors you might measure in an ecology investigation.",answer_foundation:"Light intensity and soil pH",answer_higher:"Light intensity, soil pH, wind speed, temperature, soil moisture — these are measured using light meters, pH meters and anemometers"},
+    {id:"fc8",question:"Doing repeats of quadrats allows you to identify what in your results?",answer_foundation:"Anomalous results — ones that do not fit the pattern",answer_higher:"Anomalous results (outliers) — these can be identified and excluded before calculating the mean, improving reliability"}
+  ],
+  questions:[{id:"q1",type:"6_mark",question_text:"Describe how to use quadrats to estimate the population size of a plant species in a field. Explain how you would ensure your results are reliable and your sampling is valid. [6 marks]",marks:6}],
+  mark_scheme:{
+    method_keywords:["quadrat","random","count","area","species","sample","percentage cover","coordinates","random number","mean","multiply"],
+    variable_keywords:["quadrat size","area","species","location","sampling method","time of day","bias","abiotic"],
+    evaluation_keywords:["repeat","mean","anomalous"],
+    marking_rules:{method_marks:3,variable_marks:1,evaluation_marks:2}
+  }
+},
+
+// ── 9. MICROBIOLOGY ── Triple only ───────────
+{ id:"microbiology_antibiotics", title:"Antibiotics & Bacterial Growth", paper:"P1", exam_weight:"medium", triple:true,
+  overview:{
+    aim:"Investigate the effect of different antibiotics on the growth of bacteria using aseptic technique.",
+    key_terms:[
+      {term:"Zone of inhibition", student_friendly:"The clear area around an antibiotic disc where bacteria have not been able to grow — a larger zone means the antibiotic is more effective.", exam_definition:"A clear area around an antibiotic disc on an agar plate where bacterial growth has been inhibited"},
+      {term:"Aseptic technique", student_friendly:"A set of methods used to prevent contamination of your experiment by unwanted microorganisms.", exam_definition:"Procedures used to prevent contamination of cultures or media by unwanted microorganisms"},
+      {term:"Agar", student_friendly:"The jelly-like substance in Petri dishes that bacteria grow on — it contains nutrients.", exam_definition:"A gel medium containing nutrients used to culture microorganisms"},
+      {term:"Culture", student_friendly:"A population of bacteria grown deliberately in a controlled environment.", exam_definition:"A population of microorganisms grown under controlled conditions"}
+    ],
+    clapsttv:[
+      {letter:"C",label:"Concentration of antibiotic on each disc",role:"Control"},
+      {letter:"L",label:"—",role:null},
+      {letter:"A",label:"Area of agar plate",role:"Control"},
+      {letter:"P",label:"—",role:null},
+      {letter:"S",label:"Species of bacteria used",role:"Control"},
+      {letter:"T",label:"Time of incubation",role:"Control"},
+      {letter:"T",label:"Temperature of incubation (25°C in school)",role:"Control"},
+      {letter:"V",label:"Volume / mass of antibiotic on disc",role:"Control"}
+    ],
+    iv:"Type of antibiotic disc used",
+    dv:"Diameter (or area) of the zone of inhibition (mm)",
+    method:{
+      foundation:"Spread bacteria evenly across an agar plate using a sterile spreader. Place antibiotic discs on the surface of the agar. Incubate the plate at 25°C for 48 hours. Measure the diameter of the clear zone (zone of inhibition) around each disc. The larger the zone, the more effective the antibiotic.",
+      higher:"Using aseptic technique throughout: sterilise all equipment by flaming or using sterilised disposables. Inoculate an agar plate by spreading a broth culture of bacteria evenly with a sterile spreader. Place antibiotic discs of the same size at equal spacing on the agar surface. Tape the lid on (do not seal completely — allow gas exchange). Incubate at 25°C for 48 hours. Measure the diameter of the zone of inhibition around each disc using a ruler. Calculate the area of each zone using area = π r². Repeat with fresh plates and calculate the mean zone diameter. Identify and discard anomalous results."
+    },
+    improvements:{
+      foundation:[
+        "Repeat the experiment and calculate a mean zone of inhibition for each antibiotic",
+        "Keep the incubation temperature constant at 25°C throughout",
+        "Use the same species of bacteria on every plate to ensure a fair test",
+        "Identify and exclude anomalous results before calculating the mean"
+      ],
+      higher:[
+        "Repeat with at least three plates per antibiotic and calculate a mean zone diameter",
+        "Calculate zone area (π r²) rather than diameter — area is a more precise measure of inhibition",
+        "Use a more precise measuring instrument (e.g. digital callipers) to measure zone diameter accurately",
+        "Ensure all antibiotic discs are the same size and contain the same concentration",
+        "Maintain strict aseptic technique throughout to prevent contamination",
+        "Incubate at exactly 25°C using a controlled incubator — temperature affects bacterial growth rate",
+        "Identify and exclude anomalous results before calculating the mean"
+      ]
+    },
+    graph_section:{
+      type:"Bar chart",
+      x_axis:"Type of antibiotic",
+      y_axis:"Mean diameter of zone of inhibition (mm)",
+      key_feature:"The antibiotic with the largest zone of inhibition is the most effective against that bacterium. Error bars can be added if multiple repeats were done to show the range or standard deviation.",
+      line_type:"Bar chart — bars should not touch as antibiotic types are discrete categories.",
+      mistakes:["Drawing a line graph (antibiotics are categories, not continuous data)","Using diameter instead of area when more precision is needed","Not including error bars when repeat data is available","Forgetting units (mm) on the y-axis"]
+    }
+  },
+  flashcards:[
+    {id:"fc1",question:"What is a zone of inhibition?",answer_foundation:"The clear area around an antibiotic disc where bacteria have not grown",answer_higher:"The clear area on an agar plate around an antibiotic disc where bacterial growth has been inhibited — a larger zone means the antibiotic is more effective"},
+    {id:"fc2",question:"Why is aseptic technique important in this experiment?",answer_foundation:"To stop unwanted bacteria contaminating the experiment",answer_higher:"Aseptic technique prevents contamination of the culture by unwanted microorganisms, which would invalidate results and could be hazardous"},
+    {id:"fc3",question:"Why is the incubation temperature kept at 25°C in schools?",answer_foundation:"To stop dangerous bacteria growing — human pathogens grow better at 37°C",answer_higher:"School incubators are kept at 25°C to prevent the growth of pathogens that thrive at human body temperature (37°C), making the experiment safer"},
+    {id:"fc4",question:"How do you determine which antibiotic is most effective?",answer_foundation:"The antibiotic with the largest clear zone around the disc is most effective",answer_higher:"The antibiotic producing the largest zone of inhibition is most effective against that bacterium — calculate the mean zone diameter from repeated plates"},
+    {id:"fc5",question:"Why repeat the experiment with fresh plates each time?",answer_foundation:"To get a mean result and check your results are reliable",answer_higher:"Repeating with fresh plates and calculating a mean zone diameter improves reliability and allows anomalous results to be identified and excluded"},
+    {id:"fc6",question:"What two microorganisms are particularly involved with decay?",answer_foundation:"Fungi and bacteria",answer_higher:"Fungi and bacteria are the main decomposers — they break down dead organic material by secreting enzymes externally (extracellular digestion)"}
+  ],
+  questions:[{id:"q1",type:"6_mark",question_text:"Describe how to investigate the effect of different antibiotics on the growth of bacteria. Include how you would make your results valid and reliable. [6 marks]",marks:6}],
+  mark_scheme:{
+    method_keywords:["agar","antibiotic","bacteria","disc","zone","inhibition","incubate","25","sterile","aseptic","spreader","measure","diameter"],
+    variable_keywords:["temperature","species","concentration","bacteria","control","same","disc"],
+    evaluation_keywords:["repeat","mean","anomalous"],
+    marking_rules:{method_marks:3,variable_marks:1,evaluation_marks:2}
+  }
+},
+
+// ── 10. DECAY ── Triple only ─────────────────
+{ id:"decay", title:"Decay and Environmental Conditions", paper:"P2", exam_weight:"medium", triple:true,
+  overview:{
+    aim:"Investigate how temperature affects the rate of decay of organic material.",
+    key_terms:[
+      {term:"Decomposers", student_friendly:"Microorganisms (bacteria and fungi) that break down dead material into simpler substances. They are essential for recycling nutrients in ecosystems.", exam_definition:"Microorganisms, including bacteria and fungi, that break down dead organic material by secreting enzymes"},
+      {term:"Decay", student_friendly:"The breakdown of dead organic material by microorganisms. The rate of decay depends on temperature, moisture and oxygen availability.", exam_definition:"The decomposition of dead organic material by microorganisms such as bacteria and fungi"},
+      {term:"Optimum temperature", student_friendly:"The temperature at which microorganisms (and their enzymes) work fastest. Above this, enzymes denature and decay slows down.", exam_definition:"The temperature at which enzyme-controlled reactions, including those carried out by decomposers, occur at the fastest rate"},
+      {term:"Aerobic decay", student_friendly:"Decay that requires oxygen — produces carbon dioxide, water and mineral ions as products.", exam_definition:"Decomposition that occurs in the presence of oxygen, releasing carbon dioxide, water and mineral ions"},
+      {term:"Enzyme denaturation", student_friendly:"When an enzyme's shape is permanently changed by high temperature, so it stops working.", exam_definition:"An irreversible change in the shape of an enzyme's active site, caused by high temperature or extreme pH, so it can no longer catalyse reactions"}
+    ],
+    clapsttv:[
+      {letter:"C",label:"—",role:null},
+      {letter:"L",label:"—",role:null},
+      {letter:"A",label:"—",role:null},
+      {letter:"P",label:"—",role:null},
+      {letter:"S",label:"Species / type of material used",role:"Control"},
+      {letter:"T",label:"Temperature of incubation",role:"IV"},
+      {letter:"T",label:"Time intervals for measurement",role:"Control"},
+      {letter:"V",label:"Mass of sample (starting mass)",role:"Control"}
+    ],
+    iv:"Temperature of incubation (°C)",
+    dv:"Percentage change in mass of sample over time (%)",
+    method:{
+      foundation:"Cut identical samples of food (e.g. bread or cucumber) to the same mass. Place each sample in a separate, labelled container. Put each container at a different temperature (e.g. 0°C, 10°C, 20°C, 30°C, 40°C) using a fridge, room temperature, and incubators. Leave for the same length of time (e.g. 7 days). Measure and record the mass of each sample at the end. Calculate the change in mass for each temperature.",
+      higher:"Cut identical samples of food (e.g. bread or cucumber) to the same starting mass using a balance. Place each sample in a separate sealed container to prevent moisture loss from evaporation. Set each container at a different temperature (e.g. 0°C, 10°C, 20°C, 30°C, 40°C, 50°C) using a fridge, water baths or calibrated incubators. Record the mass of each sample every 24 hours for 7 days. Calculate the percentage change in mass: ((final − initial) ÷ initial) × 100. Repeat with three samples at each temperature. Calculate the mean percentage change in mass and identify anomalous results. Plot a graph of percentage mass change against temperature."
+    },
+    improvements:{
+      foundation:[
+        "Repeat at each temperature and calculate a mean percentage change in mass",
+        "Use identical samples cut to the same starting mass to ensure a fair test",
+        "Use a sealed container to prevent mass loss from evaporation rather than decay",
+        "Use a thermometer to check the temperature in each container is correct",
+        "Identify and exclude anomalous results before calculating the mean"
+      ],
+      higher:[
+        "Repeat with at least three samples at each temperature and calculate a mean",
+        "Use a calibrated incubator to maintain temperature precisely — incubators are more reliable than water baths for long experiments",
+        "Use a more precise balance (reading to 0.01 g) to reduce measurement uncertainty",
+        "Seal containers to prevent mass loss from evaporation — only mass lost through decay should be measured",
+        "Use a data logger connected to temperature sensors to record temperature continuously throughout the experiment",
+        "Identify and exclude anomalous results before calculating the mean percentage change in mass"
+      ]
+    },
+    graph_section:{
+      type:"Line graph",
+      x_axis:"Temperature (°C)",
+      y_axis:"Percentage change in mass (%) — or rate of decay",
+      key_feature:"The graph shows an increase in decay rate as temperature rises, peaking at the optimum temperature for the decomposers' enzymes (around 30–40°C). Above this, the curve drops sharply as enzymes denature. This mirrors the enzyme activity graph for amylase.",
+      line_type:"Smooth curve of best fit",
+      mistakes:["Drawing a straight line instead of a curve","Not identifying the optimum temperature on the x-axis","Plotting actual mass change instead of percentage change","Confusing this graph shape with a linear relationship — it is always a curve"]
+    }
+  },
+  flashcards:[
+    {id:"fc1",question:"What is decay?",answer_foundation:"The breakdown of dead organic material by microorganisms such as bacteria and fungi",answer_higher:"Decomposition of dead organic material by microorganisms (bacteria and fungi) that secrete enzymes to break down the material externally"},
+    {id:"fc2",question:"Why does temperature affect the rate of decay?",answer_foundation:"Microorganisms have enzymes that work faster at higher temperatures — up to a point",answer_higher:"Decomposers use enzymes to break down material. Higher temperatures increase enzyme activity and the rate of decay, up to the optimum temperature. Above the optimum, enzymes denature and decay slows"},
+    {id:"fc3",question:"What two microorganisms are mainly responsible for decay?",answer_foundation:"Bacteria and fungi",answer_higher:"Bacteria and fungi — these are the main decomposers. They break down dead organic material by secreting enzymes and absorbing the products"},
+    {id:"fc4",question:"Why do we calculate percentage change in mass rather than actual change?",answer_foundation:"Because the samples might not all start at exactly the same mass, so percentage makes them comparable",answer_higher:"Percentage change accounts for any slight differences in starting mass, making results from different samples directly comparable"},
+    {id:"fc5",question:"Why is decay important in ecosystems?",answer_foundation:"It recycles nutrients back into the soil so plants can use them again",answer_higher:"Decomposers break down dead material and release mineral ions back into the soil, which are then absorbed by plant roots — this is essential for nutrient cycling"},
+    {id:"fc6",question:"What happens to the rate of decay above the optimum temperature?",answer_foundation:"It slows down because the microorganisms' enzymes stop working properly",answer_higher:"Above the optimum temperature, the enzymes of decomposers are denatured — their active sites change shape permanently, so they can no longer catalyse reactions and the rate of decay falls"},
+    {id:"fc7",question:"Why must containers be sealed during a decay experiment?",answer_foundation:"To make sure any mass loss is due to decay and not water evaporating",answer_higher:"Sealing containers prevents water evaporating from the sample surface, ensuring any change in mass is due to decay by microorganisms rather than evaporation"},
+    {id:"fc8",question:"Name one condition, other than temperature, that affects the rate of decay.",answer_foundation:"Moisture — more moisture speeds up decay",answer_higher:"Moisture, oxygen availability, and pH all affect the rate of decay. More moisture and oxygen generally increase the rate; extreme pH reduces enzyme activity in decomposers"}
+  ],
+  questions:[{id:"q1",type:"6_mark",question_text:"Describe and evaluate an investigation into how temperature affects the rate of decay of a food sample. [6 marks]",marks:6}],
+  mark_scheme:{
+    method_keywords:["temperature","mass","decay","sample","incubator","days","sealed","container","percentage","balance","time","measure"],
+    variable_keywords:["temperature","mass","time","species","material","control","same","starting"],
+    evaluation_keywords:["repeat","mean","anomalous"],
+    synonyms:{ mean:["average"], anomalous:["outlier","anomaly"], decay:["decomposition","decompose"] },
+    marking_rules:{method_marks:3,variable_marks:2,evaluation_marks:2}
+  }
+}
+
+]}; // end DATA
+
+// ═══════════════════════════════════════════
+//  SENTENCE BUILDER DATA (2-3 per RPA)
+// ═══════════════════════════════════════════
+const SB_DATA = {
+  microscopy:[
+    {id:"sb1",sentence:"The total magnification is calculated by multiplying the ___ lens by the ___ lens.",blanks:["eyepiece","objective"],options:[["eyepiece","objective","stage"],["objective","condenser","eyepiece"]]},
+    {id:"sb2",sentence:"To calculate the actual size of a cell, divide the ___ size by the ___.",blanks:["image","magnification"],options:[["image","actual","real"],["magnification","resolution","scale"]]},
+    {id:"sb3",sentence:"Iodine solution is used to ___ cells, making structures ___ under the microscope.",blanks:["stain","visible"],options:[["stain","fix","culture"],["visible","larger","identical"]]}
+  ],
+  osmosis:[
+    {id:"sb1",sentence:"Osmosis is the movement of water from a ___ solution to a more ___ solution through a partially permeable membrane.",blanks:["dilute","concentrated"],options:[["dilute","concentrated","saturated"],["concentrated","dilute","isotonic"]]},
+    {id:"sb2",sentence:"To calculate percentage change in mass, divide the ___ in mass by the ___ mass and multiply by 100.",blanks:["change","initial"],options:[["change","difference","loss"],["initial","final","total"]]},
+    {id:"sb3",sentence:"The ___ point is where the line crosses the x-axis, showing zero percentage change in ___.",blanks:["isotonic","mass"],options:[["isotonic","optimum","equilibrium"],["mass","volume","concentration"]]}
+  ],
+  food_tests:[
+    {id:"sb1",sentence:"Benedict's solution changes from ___ to orange or brick-red when heated with a ___ sugar.",blanks:["blue","reducing"],options:[["blue","clear","yellow"],["reducing","simple","non-reducing"]]},
+    {id:"sb2",sentence:"Iodine solution turns ___ in the presence of ___, indicating a positive result.",blanks:["blue-black","starch"],options:[["blue-black","orange","purple"],["starch","glucose","protein"]]},
+    {id:"sb3",sentence:"A ___ control contains distilled water instead of a food sample, confirming the reagent itself does not produce a colour ___.",blanks:["negative","change"],options:[["negative","positive","blank"],["change","result","reaction"]]}
+  ],
+  enzyme_activity:[
+    {id:"sb1",sentence:"A buffer solution is used to keep the ___ constant so it does not act as an uncontrolled ___.",blanks:["pH","variable"],options:[["pH","temperature","concentration"],["variable","factor","result"]]},
+    {id:"sb2",sentence:"The rate of reaction is calculated as 1000 divided by the ___ in ___, giving units of s⁻¹.",blanks:["time","seconds"],options:[["time","rate","change"],["seconds","minutes","hours"]]},
+    {id:"sb3",sentence:"When the iodine solution stays ___, all the starch has been ___ by the amylase enzyme.",blanks:["orange-brown","digested"],options:[["orange-brown","blue-black","colourless"],["digested","produced","absorbed"]]}
+  ],
+  photosynthesis:[
+    {id:"sb1",sentence:"Sodium hydrogen carbonate solution is used to maintain the ___ concentration so it does not become a ___ factor.",blanks:["CO₂","limiting"],options:[["CO₂","oxygen","glucose"],["limiting","control","dependent"]]},
+    {id:"sb2",sentence:"As light intensity ___, the rate of photosynthesis increases until another factor becomes ___.",blanks:["increases","limiting"],options:[["increases","decreases","varies"],["limiting","constant","optimal"]]},
+    {id:"sb3",sentence:"A gas syringe is more ___ than counting bubbles because bubbles vary in ___.",blanks:["accurate","size"],options:[["accurate","convenient","reliable"],["size","number","speed"]]}
+  ],
+  reaction_time:[
+    {id:"sb1",sentence:"The ruler must be dropped without warning to prevent the participant from ___ the drop, which would reduce the measured reaction ___.",blanks:["anticipating","time"],options:[["anticipating","predicting","timing"],["time","distance","speed"]]},
+    {id:"sb2",sentence:"Repeating the test and calculating a ___ reduces the effect of ___ error in the results.",blanks:["mean","random"],options:[["mean","total","maximum"],["random","systematic","human"]]},
+    {id:"sb3",sentence:"The ___ variable is the distance the ruler falls, measured in ___ using a ruler.",blanks:["dependent","centimetres"],options:[["dependent","independent","control"],["centimetres","millimetres","metres"]]}
+  ],
+  tropisms:[
+    {id:"sb1",sentence:"Phototropism occurs because ___ accumulates on the ___ side of the shoot, causing greater cell elongation.",blanks:["auxin","shaded"],options:[["auxin","gibberellin","ethylene"],["shaded","illuminated","upper"]]},
+    {id:"sb2",sentence:"A ___ group grown with light from all directions is used to compare against the ___ group receiving unidirectional light.",blanks:["control","experimental"],options:[["control","positive","triple"],["experimental","treatment","test"]]},
+    {id:"sb3",sentence:"The angle of shoot growth is measured from ___ using a ___ every 24 hours.",blanks:["vertical","protractor"],options:[["vertical","horizontal","the lamp"],["protractor","ruler","balance"]]}
+  ],
+  ecology_sampling:[
+    {id:"sb1",sentence:"Quadrats must be placed using ___ numbers to avoid investigator ___ in the results.",blanks:["random","bias"],options:[["random","prime","square"],["bias","error","variation"]]},
+    {id:"sb2",sentence:"Population size is estimated by multiplying the ___ number per quadrat by the total area divided by the ___ area.",blanks:["mean","quadrat"],options:[["mean","maximum","median"],["quadrat","sample","habitat"]]},
+    {id:"sb3",sentence:"Percentage cover estimates the proportion of the quadrat ___ covered by a species, expressed as a ___.",blanks:["area","percentage"],options:[["area","perimeter","depth"],["percentage","fraction","ratio"]]}
+  ],
+  microbiology_antibiotics:[
+    {id:"sb1",sentence:"The zone of ___ is the clear area around an antibiotic disc where bacterial ___ has been prevented.",blanks:["inhibition","growth"],options:[["inhibition","exclusion","clearance"],["growth","decay","reproduction"]]},
+    {id:"sb2",sentence:"___ technique must be used throughout to prevent ___ of the agar plates by unwanted microorganisms.",blanks:["Aseptic","contamination"],options:[["Aseptic","Sterile","Safe"],["contamination","destruction","replacement"]]},
+    {id:"sb3",sentence:"School incubators are kept at 25°C rather than 37°C to prevent the growth of ___ that thrive at ___ body temperature.",blanks:["pathogens","human"],options:[["pathogens","bacteria","fungi"],["human","room","higher"]]}
+  ],
+  decay:[
+    {id:"sb1",sentence:"Decomposers break down dead material by ___ enzymes, which digest the material ___ before absorbing the products.",blanks:["secreting","externally"],options:[["secreting","producing","using"],["externally","internally","slowly"]]},
+    {id:"sb2",sentence:"Above the ___ temperature, the enzymes of decomposers are ___, so the rate of decay decreases.",blanks:["optimum","denatured"],options:[["optimum","maximum","average"],["denatured","activated","released"]]},
+    {id:"sb3",sentence:"Containers must be ___ to ensure any change in mass is due to ___ and not evaporation of water.",blanks:["sealed","decay"],options:[["sealed","opened","weighed"],["decay","temperature","pressure"]]}
+  ]
+};
+
+// ═══════════════════════════════════════════
+//  PERSISTENCE (localStorage)
+// ═══════════════════════════════════════════
+const STORE_KEY = 'aqa_bio_rpas_v5';
+
+function loadProgress() {
+  try {
+    const raw = localStorage.getItem(STORE_KEY);
+    return raw ? JSON.parse(raw) : {};
+  } catch(e) { return {}; }
+}
+
+function saveProgress(scores) {
+  try { localStorage.setItem(STORE_KEY, JSON.stringify(scores)); } catch(e) {}
+}
+
+function clearProgress() {
+  try { localStorage.removeItem(STORE_KEY); } catch(e) {}
+}
+
+// ═══════════════════════════════════════════
+//  STATE
+// ═══════════════════════════════════════════
+let S = {
+  view:'list', selectedRpa:null, tab:'rpas',
+  tier:'foundation', showTriple:false,
+  fc:{ index:0, revealed:false, scores:{} }, fcDone:false,
+  sb:{ index:0, selected:null, answered:false, scores:{} }, sbDone:false,
+  applyAnswer:'', applyScore:null,
+  openSections:{}, openTerms:{},
+  sessionScores: loadProgress()  // load from localStorage on start
+};
+
+// ═══════════════════════════════════════════
+//  HELPERS
+// ═══════════════════════════════════════════
+function mastery(id) {
+  const s = S.sessionScores[id]; if (!s) return 0;
+  let t = 0, n = 0;
+  if (s.fc  !== undefined) { t += s.fc;            n++; }
+  if (s.sb  !== undefined) { t += s.sb;            n++; }
+  if (s.apply !== undefined) { t += (s.apply/6)*100; n++; }
+  return n ? Math.round(t/n) : 0;
+}
+
+function grade(score) {
+  if (score >= 6) return { label:'Full marks!', col:'#fff' };
+  if (score >= 5) return { label:'Excellent',   col:'#D1FAE5' };
+  if (score >= 4) return { label:'Good',        col:'#D1FAE5' };
+  if (score >= 3) return { label:'Getting there', col:'#FEF3C7' };
+  return { label:'Needs work', col:'#FEE2E2' };
+}
+
+function visibleRpas() { return DATA.rpas.filter(r => S.showTriple || !r.triple); }
+function weakAreas()   { return DATA.rpas.filter(r => { const s=S.sessionScores[r.id]; return s && s.apply!==undefined && s.apply<4; }); }
+
+function updateScore(id, key, val) {
+  if (!S.sessionScores[id]) S.sessionScores[id] = {};
+  S.sessionScores[id][key] = val;
+  saveProgress(S.sessionScores);
+}
+
+// ═══════════════════════════════════════════
+//  RENDER ROUTER
+// ═══════════════════════════════════════════
+function render() {
+  const app = document.getElementById('app');
+  if      (S.view==='list')     app.innerHTML = renderList();
+  else if (S.view==='detail')   app.innerHTML = renderDetail();
+  else if (S.view==='practice') app.innerHTML = renderPractice();
+  else if (S.view==='sentence') app.innerHTML = renderSentence();
+  else if (S.view==='apply')    app.innerHTML = renderApply();
+  else if (S.view==='results')  app.innerHTML = renderResults();
+  attach();
+}
+
+// ── LIST ──────────────────────────────────
+function renderList() {
+  const rpas = visibleRpas();
+  const p1 = rpas.filter(r => !r.triple && r.paper === 'P1');
+  const p2 = rpas.filter(r => !r.triple && r.paper === 'P2');
+  const triple = rpas.filter(r => r.triple);
+
+  const card = rpa => {
+    const m = mastery(rpa.id);
+    const paper = rpa.paper === 'P1' ? 'p1' : 'p2';
+    const wc = rpa.exam_weight === 'high' ? 'pill-high' : 'pill-med';
+    const wLabel = rpa.exam_weight === 'high' ? 'high priority' : 'medium priority';
+    const scores = S.sessionScores[rpa.id] || {};
+    return `<div class="rpa-card" data-action="openRpa" data-id="${rpa.id}">
+      <div class="rpa-card-accent ${paper}"></div>
+      <div class="rpa-card-body">
+        <div class="rpa-card-left">
+          <div class="rpa-card-title">${rpa.title}</div>
+          <div class="rpa-card-meta">
+            <span class="pill pill-${paper}">${rpa.paper}</span>
+            <span class="pill ${wc}">${wLabel}</span>
+            ${rpa.triple ? '<span class="pill pill-triple">Triple only</span>' : ''}
+          </div>
+          ${m > 0 ? `<div class="mastery-bar-wrap">
+            <div class="mastery-label"><span>Mastery</span><span>${m}%</span></div>
+            <div class="mastery-bar"><div class="mastery-fill" style="width:${m}%"></div></div>
+          </div>` : ''}
+        </div>
+        <div class="rpa-card-arrow">›</div>
+      </div>
+    </div>`;
+  };
+
+  const tripleSection = triple.length ? `
+    <div class="paper-divider"><div class="paper-divider-line"></div><span class="paper-divider-label" style="background:var(--triple-bg);color:var(--triple);">Triple Science</span><div class="paper-divider-line"></div></div>
+    ${triple.map(card).join('')}` : '';
+
+  return `${hdr('AQA Biology RPAs','Required Practicals',false)}
+    <div class="content">
+      <div class="priority-explain">
+        <strong style="color:var(--danger);">🔴 High priority</strong> — very likely to appear in your exam. Revise these first.<br>
+        <span style="color:var(--warn);">🟠 Medium priority</span> — may appear in your exam. Revise once you're confident on high priority ones.
+      </div>
+      <div class="triple-toggle-wrap">
+        <div>
+          <div class="triple-toggle-text">Show Triple Science RPAs</div>
+          <div class="triple-toggle-sub">Only for Separate Biology students</div>
+        </div>
+        <label class="toggle-switch">
+          <input type="checkbox" id="tripleToggle" ${S.showTriple ? 'checked' : ''}>
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+      <div class="paper-divider"><div class="paper-divider-line"></div><span class="paper-divider-label p1">Paper 1</span><div class="paper-divider-line"></div></div>
+      ${p1.map(card).join('')}
+      <div class="paper-divider"><div class="paper-divider-line"></div><span class="paper-divider-label p2">Paper 2</span><div class="paper-divider-line"></div></div>
+      ${p2.map(card).join('')}
+      ${tripleSection}
+    </div>${nav()}`;
+}
+
+// ── DETAIL ───────────────────────────────
+function renderDetail() {
+  const rpa = DATA.rpas.find(r => r.id === S.selectedRpa); if (!rpa) return '';
+  const t = S.tier;
+  const methodSrc = rpa.overview.method[t] || rpa.overview.method.foundation;
+  const paper = rpa.paper === 'P1' ? 'p1' : 'p2';
+
+  function isOpen(id, def) { return S.openSections[id] !== undefined ? S.openSections[id] : !!def; }
+  function sec(id, label, body, def) {
+    const open = isOpen(id, def);
+    return `<div class="collapsible">
+      <div class="collapsible-header" data-action="toggleSec" data-sid="${id}">
+        <span>${label}</span><span class="collapsible-icon ${open ? 'open' : ''}">▾</span>
+      </div>
+      ${open ? `<div class="collapsible-body">${body}</div>` : ''}
+    </div>`;
+  }
+
+  const termsHtml = rpa.overview.key_terms.map(kt => {
+    const open = S.openTerms[kt.term];
+    return `<div class="term-card" data-action="toggleTerm" data-term="${encodeURIComponent(kt.term)}">
+      <div class="term-name">${kt.term}<span class="term-chevron">▾</span></div>
+      <div class="term-def ${open ? 'show' : ''}">${kt.student_friendly}</div>
+      ${open ? `<div class="term-exam-label show">Exam definition</div><div class="term-exam show">${kt.exam_definition}</div>` : ''}
+    </div>`;
+  }).join('');
+
+  let clapSection = '';
+  if (!rpa.noClapsttv && rpa.overview.clapsttv && rpa.overview.clapsttv.length) {
+    const clapHtml = rpa.overview.clapsttv.map(item => {
+      const na = item.label === '—';
+      let roleHtml = '';
+      if (!na) {
+        if (item.role === 'IV') roleHtml = `<div class="clapsttv-roles"><span class="clapsttv-role role-iv">Independent variable</span></div>`;
+        else if (item.role && item.role.startsWith('DV')) roleHtml = `<div class="clapsttv-roles"><span class="clapsttv-role role-dv">Dependent variable</span></div>`;
+        else if (item.role === 'Control') roleHtml = `<div class="clapsttv-roles"><span class="clapsttv-role role-ctrl">Control variable</span></div>`;
+      }
+      return `<div class="clapsttv-item ${na ? 'clapsttv-na' : ''}">
+        <div class="clapsttv-letter">${item.letter}</div>
+        <div class="clapsttv-label">${na ? 'Not used' : item.label}</div>
+        ${roleHtml}
+      </div>`;
+    }).join('');
+    clapSection = sec('clap', '🔬 Variables', `
+      <div class="clapsttv-intro">
+        <strong>IV:</strong> ${rpa.overview.iv}<br>
+        <strong>DV:</strong> ${rpa.overview.dv}
+      </div>
+      <div class="clapsttv-grid">${clapHtml}</div>`, true);
+  }
+
+  function splitSteps(src){
+    if(Array.isArray(src)) return src.filter(s=>s.trim().length>2);
+    const abbrevs=['e.g.','i.e.','etc.','approx.','vol.','conc.','cm.','dm.','mol.'];
+    let safe=src;
+    const placeholders=[];
+    abbrevs.forEach(ab=>{
+      const ph='__ABB'+placeholders.length+'__';
+      if(safe.includes(ab)){ safe=safe.split(ab).join(ph); placeholders.push({ph,ab}); }
+    });
+    const parts=[];
+    let buf='';
+    for(let i=0;i<safe.length;i++){
+      const ch=safe[i];
+      buf+=ch;
+      if(ch==='.'||ch==='!'||ch==='?'){
+        const next=safe[i+1];
+        const prev=safe[i-1];
+        if(next===' ' && /[A-Z]/.test(safe[i+2]||'') && !/[0-9]/.test(prev||'')){
+          parts.push(buf.trim());buf='';i++;
+        }
+      }
+    }
+    if(buf.trim().length>2) parts.push(buf.trim());
+    const result=parts.length>0?parts:[safe];
+    return result.map(s=>{
+      let r=s;
+      placeholders.forEach(({ph,ab})=>{ r=r.split(ph).join(ab); });
+      return r;
+    }).filter(s=>s.length>2);
+  }
+  const cleanSteps = splitSteps(methodSrc);
+
+  let imps = [];
+  if (Array.isArray(rpa.overview.improvements)) imps = rpa.overview.improvements;
+  else imps = rpa.overview.improvements[t] || rpa.overview.improvements.foundation || [];
+
+  const stepsHtml = cleanSteps.map((s,i) => `<div class="method-step">
+    <div class="step-num">${i+1}</div><div class="step-text">${s}</div>
+  </div>`).join('');
+
+  const impsHtml = imps.map(imp => `<div class="improvement-item">
+    <div class="imp-dot"></div><div class="imp-text">${imp}</div>
+  </div>`).join('');
+
+  let graphSection = '';
+  if (rpa.overview.graph_section) {
+    const g = rpa.overview.graph_section;
+    graphSection = sec('graph', '📈 Graph Skills', `
+      <div class="graph-box">
+        <div class="graph-box-title">Graph type: ${g.type}</div>
+        <div class="graph-axis-row">
+          <div class="graph-axis"><div class="graph-axis-label">X-axis</div><div class="graph-axis-value">${g.x_axis}</div></div>
+          <div class="graph-axis"><div class="graph-axis-label">Y-axis</div><div class="graph-axis-value">${g.y_axis}</div></div>
+        </div>
+        <p style="margin-top:10px;font-size:13px;"><strong>Line type:</strong> ${g.line_type}</p>
+        <p style="margin-top:8px;font-size:13px;"><strong>Key feature:</strong> ${g.key_feature}</p>
+        <div style="margin-top:12px;">
+          <div style="font-size:11px;font-weight:700;color:var(--danger);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:4px;">Common exam mistakes</div>
+          ${g.mistakes.map(m => `<div class="mistake-item">${m}</div>`).join('')}
+        </div>
+      </div>`, false);
+  }
+
+  let magSection = '', unitsSection = '';
+  if (rpa.overview.magnification_section) {
+    magSection = sec('mag','🔢 Magnification',`
+      <div class="info-box" style="margin-top:12px;">
+        <div class="info-box-title">Total magnification</div>
+        <p>Total magnification = <strong>eyepiece lens × objective lens</strong></p>
+        <p style="margin-top:6px;">Example: ×10 eyepiece × ×40 objective = <strong>×400 total</strong></p>
+      </div>
+      <div class="formula-box">
+        <div class="formula-main">Actual size = Image size ÷ Magnification</div>
+        <div class="formula-sub">If you know any two values, you can find the third</div>
+      </div>
+      <div class="formula-triangle">
+        <div class="triangle-wrap">
+          <div class="tri-top">Image size (I)</div>
+          <div class="tri-bl">Actual size (A)</div>
+          <div class="tri-br">Magnification (M)</div>
+        </div>
+      </div>
+      <div class="tri-hint">Cover the value you want to find:<br>I = A × M &nbsp;|&nbsp; A = I ÷ M &nbsp;|&nbsp; M = I ÷ A</div>`,false);
+  }
+  if (rpa.overview.units_section) {
+    unitsSection = sec('units','📏 Units & Measurement',`
+      <div class="info-box" style="margin-top:12px;">
+        <div class="info-box-title">Converting between units</div>
+        <p>Cells are too small to measure in millimetres, so we use smaller units:</p>
+        <ul style="margin-top:8px;"><li><strong>1 mm = 1,000 µm (micrometres)</strong></li><li><strong>1 µm = 1,000 nm (nanometres)</strong></li><li><strong>1 mm = 1,000,000 nm</strong></li></ul>
+      </div>
+      <table class="conv-table">
+        <tr><th>To convert</th><th>Operation</th><th>Example</th></tr>
+        <tr><td>mm → µm</td><td>× 1,000</td><td>0.05 mm = 50 µm</td></tr>
+        <tr><td>µm → mm</td><td>÷ 1,000</td><td>50 µm = 0.05 mm</td></tr>
+        <tr><td>µm → nm</td><td>× 1,000</td><td>2 µm = 2,000 nm</td></tr>
+        <tr><td>nm → µm</td><td>÷ 1,000</td><td>2,000 nm = 2 µm</td></tr>
+      </table>
+      <div class="worked-ex">
+        <div class="worked-ex-title">Worked example — measuring a cell</div>
+        <div class="worked-step"><div class="worked-num">1</div><div>Measure the image with a ruler. Example: <strong>image = 30 mm</strong></div></div>
+        <div class="worked-step"><div class="worked-num">2</div><div>Note the magnification. Example: <strong>×300</strong></div></div>
+        <div class="worked-step"><div class="worked-num">3</div><div>Actual size: <strong>30 ÷ 300 = 0.1 mm</strong></div></div>
+        <div class="worked-step"><div class="worked-num">4</div><div>Convert to µm: <strong>0.1 × 1,000 = 100 µm</strong></div></div>
+      </div>`,false);
+  }
+
+  const hasSB = (SB_DATA[rpa.id] || []).length > 0;
+  const tripleBanner = rpa.triple ? `<div class="triple-banner">🔬 Triple Science only — not assessed in Combined Science</div>` : '';
+
+  return `${hdr(rpa.title, `${rpa.paper} · ${rpa.exam_weight} priority`, true)}
+    <div class="content">
+      ${tripleBanner}
+      ${sec('aim','📋 Aim',`<div class="aim-text">${rpa.overview.aim}</div>`,true)}
+      ${sec('terms','📖 Key Terms',termsHtml,false)}
+      ${clapSection}
+      ${sec('method','⚗️ Method',`
+        <div class="toggle-row">
+          <button class="tier-btn ${t==='foundation'?'active':''}" data-action="setTier" data-tier="foundation">Foundation</button>
+          <button class="tier-btn ${t==='higher'?'active':''}" data-action="setTier" data-tier="higher">Higher</button>
+        </div>${stepsHtml}`,false)}
+      ${sec('imp','⬆️ Improvements',`
+        <div class="toggle-row">
+          <button class="tier-btn ${t==='foundation'?'active':''}" data-action="setTier" data-tier="foundation">Foundation</button>
+          <button class="tier-btn ${t==='higher'?'active':''}" data-action="setTier" data-tier="higher">Higher</button>
+        </div>${impsHtml}`,false)}
+      ${graphSection}${magSection}${unitsSection}
+      <div style="height:8px;"></div>
+      <button class="cta-btn" data-action="startPractice">Flashcard Practice →</button>
+      ${hasSB ? `<button class="cta-btn cta-btn-sentence" style="margin-top:8px;" data-action="startSentence">Sentence Builder →</button>` : ''}
+      <button class="cta-btn cta-btn-outline" style="margin-top:8px;" data-action="startApply">Try 6-Mark Question</button>
+    </div>${nav()}`;
+}
+
+// ── PRACTICE ─────────────────────────────
+function renderPractice() {
+  const rpa = DATA.rpas.find(r => r.id === S.selectedRpa);
+  const cards = rpa.flashcards;
+  const t = S.tier;
+  if (S.fcDone) {
+    const correct = Object.values(S.fc.scores).filter(Boolean).length;
+    const pct = Math.round((correct/cards.length)*100);
+    return `${hdr('Practice Complete', rpa.title, true)}
+      <div class="content">
+        <div class="fc-summary">
+          <div class="fc-summary-mode">Flashcards</div>
+          <div class="fc-summary-score">${correct}/${cards.length}</div>
+          <div class="fc-summary-label">${pct}% correct</div>
+        </div>
+        <button class="cta-btn cta-btn-sentence" data-action="startSentence">Try Sentence Builder →</button>
+        <button class="cta-btn" style="margin-top:8px;" data-action="startApply">Try 6-Mark Question →</button>
+        <button class="cta-btn cta-btn-outline" style="margin-top:8px;" data-action="retryPractice">Retry Flashcards</button>
+        <button class="cta-btn cta-btn-outline" style="margin-top:8px;" data-action="goBack">Back to RPA</button>
+      </div>${nav()}`;
+  }
+  const idx = S.fc.index;
+  const card = cards[idx];
+  const revealed = S.fc.revealed;
+  const answer = card[`answer_${t}`] || card.answer_higher || card.answer_foundation || 'No answer data for this tier.';
+  const dots = cards.map((_,i) => `<div class="fc-dot ${i<idx?'done':i===idx?'current':''}"></div>`).join('');
+  return `${hdr(rpa.title, `Card ${idx+1} of ${cards.length}`, true)}
+    <div class="content">
+      <div class="toggle-row">
+        <button class="tier-btn ${t==='foundation'?'active':''}" data-action="setTier" data-tier="foundation">Foundation</button>
+        <button class="tier-btn ${t==='higher'?'active':''}" data-action="setTier" data-tier="higher">Higher</button>
+      </div>
+      <div class="fc-progress">${dots}</div>
+      <div class="fc-card" data-action="revealCard">
+        <div class="fc-label">Question ${idx+1} of ${cards.length}</div>
+        <div class="fc-question">${card.question}</div>
+        <div class="fc-answer ${revealed ? 'show' : ''}">
+          <div class="fc-answer-label">Answer</div>${answer}
+        </div>
+        ${!revealed ? `<div class="fc-tap-hint">Tap card to reveal answer</div>` : ''}
+      </div>
+      ${revealed ? `<div class="fc-btns">
+        <button class="fc-btn fc-nope" data-action="fcNope">✗ Not sure</button>
+        <button class="fc-btn fc-got" data-action="fcGot">✓ Got it</button>
+      </div>` : ''}
+    </div>${nav()}`;
+}
+
+// ── SENTENCE BUILDER ─────────────────────
+function renderSentence() {
+  const rpa = DATA.rpas.find(r => r.id === S.selectedRpa);
+  const cards = SB_DATA[rpa.id] || [];
+  if (!cards.length) { S.view='detail'; render(); return ''; }
+
+  if (S.sbDone) {
+    const correct = Object.values(S.sb.scores).filter(Boolean).length;
+    const pct = Math.round((correct/cards.length)*100);
+    return `${hdr('Sentence Builder', rpa.title, true)}
+      <div class="content">
+        <div class="fc-summary">
+          <div class="fc-summary-mode">Sentence Builder</div>
+          <div class="fc-summary-score">${correct}/${cards.length}</div>
+          <div class="fc-summary-label">${pct}% correct</div>
+        </div>
+        <button class="cta-btn" data-action="startApply">Try 6-Mark Question →</button>
+        <button class="cta-btn cta-btn-outline" style="margin-top:8px;" data-action="retrySentence">Retry Sentence Builder</button>
+        <button class="cta-btn cta-btn-outline" style="margin-top:8px;" data-action="goBack">Back to RPA</button>
+      </div>${nav()}`;
+  }
+
+  const idx = S.sb.index;
+  const card = cards[idx];
+  const answered = S.sb.answered;
+  const selected = S.sb.selected; // array of chosen options per blank
+
+  const dots = cards.map((_,i) => `<div class="sb-dot ${i<idx?'done':i===idx?'current':''}"></div>`).join('');
+
+  // Build sentence as parts: split on ___ and interleave blanks as block elements
+  const parts = card.sentence.split('___');
+  let sentenceHtml = '<div class="sb-parts">';
+  parts.forEach((part, pi) => {
+    const isLast = pi === parts.length - 1;
+    const sel = selected && selected[pi];
+    let blankCls = 'sb-blank';
+    if (sel && answered) blankCls += sel.toLowerCase() === card.blanks[pi].toLowerCase() ? ' correct' : ' incorrect';
+    else if (sel) blankCls += ' filled';
+    const display = sel || ('Blank ' + (pi + 1));
+    // Row: text part + blank (except after last part)
+    sentenceHtml += `<div class="sb-part-row">`;
+    if (part.trim()) sentenceHtml += `<span class="sb-part-text">${part.trim()}</span>`;
+    if (!isLast) sentenceHtml += `<span class="${blankCls}" data-blank="${pi}">${display}</span>`;
+    sentenceHtml += `</div>`;
+  });
+  sentenceHtml += '</div>';
+
+  // Options for current unfilled blank
+  const currentBlank = selected ? selected.findIndex(s => !s) : 0;
+  const blankToFill = answered ? -1 : (currentBlank === -1 ? -1 : currentBlank);
+  let optionsHtml = '';
+  if (blankToFill >= 0 && card.options[blankToFill]) {
+    optionsHtml = `<div style="font-size:12px;font-weight:700;color:var(--text2);margin-bottom:10px;">
+        Choose the word for <span style="color:var(--triple);">Blank ${blankToFill + 1}</span>:
+      </div>
+      <div class="sb-options">
+        ${card.options[blankToFill].map(opt => {
+          let cls = 'sb-option';
+          if (answered && selected[blankToFill]) {
+            if (opt.toLowerCase() === card.blanks[blankToFill].toLowerCase()) cls += ' correct-opt';
+            else if (opt === selected[blankToFill]) cls += ' wrong-opt';
+          }
+          return `<button class="${cls}" data-action="sbSelect" data-blank="${blankToFill}" data-opt="${opt}">${opt}</button>`;
+        }).join('')}
+      </div>`;
+  }
+
+  // Feedback
+  let feedbackHtml = '';
+  if (answered) {
+    const allCorrect = card.blanks.every((b,i) => selected[i] && selected[i].toLowerCase() === b.toLowerCase());
+    feedbackHtml = `<div class="sb-feedback show ${allCorrect?'correct':'incorrect'}" style="display:block;">
+      ${allCorrect ? '✓ Correct! Well done.' : `✗ The correct answers were: ${card.blanks.join(', ')}`}
+    </div>`;
+  }
+
+  return `${hdr(rpa.title, `Sentence ${idx+1} of ${cards.length}`, true)}
+    <div class="content">
+      <div class="sb-progress">${dots}</div>
+      <div class="sb-card">
+        <div class="sb-label">Complete the sentence</div>
+        <div class="sb-sentence">${sentenceHtml}</div>
+        ${optionsHtml}
+        ${feedbackHtml}
+      </div>
+      ${answered ? `<button class="cta-btn" data-action="sbNext">${idx+1 < cards.length ? 'Next sentence →' : 'See results →'}</button>` : ''}
+    </div>${nav()}`;
+}
+
+// ── APPLY ────────────────────────────────
+function renderApply() {
+  const rpa = DATA.rpas.find(r => r.id === S.selectedRpa);
+  const q = rpa.questions[0];
+  const result = S.applyScore;
+
+  if (result) {
+    const g = grade(result.score);
+    const bd = result.breakdown;
+    const feedbackItems = result.feedback.filter(f => !f.includes('AQA phrase'));
+    const aqaItems      = result.feedback.filter(f =>  f.includes('AQA phrase'));
+    const feedbackHtml = feedbackItems.map(f => {
+      const pass = f.startsWith('✓');
+      return `<div class="feedback-item">
+        <div class="feedback-tick ${pass?'pass':'fail'}">${pass?'✓':'✗'}</div>
+        <div>${f.replace(/^[✓✗]\s*/,'')}</div>
+      </div>`;
+    }).join('');
+    const aqaHtml = aqaItems.length ? `
+      <div class="aqa-phrase-section">
+        <div class="feedback-title">AQA key phrases</div>
+        ${aqaItems.map(f => {
+          const pass = f.startsWith('✓');
+          return `<div class="feedback-item">
+            <div class="feedback-tick ${pass?'pass':'fail'}">${pass?'✓':'✗'}</div>
+            <div>${f.replace(/^[✓✗]\s*AQA phrase (found|missing):\s*/,'')}</div>
+          </div>`;
+        }).join('')}
+      </div>` : '';
+    const nextHtml = result.next_steps.length ? `<div class="next-steps-box">
+      <div class="next-steps-title">To improve your answer:</div>
+      ${result.next_steps.map(n => `<div class="next-step-item">${n}</div>`).join('')}
+    </div>` : '';
+
+    return `${hdr('Your Result', rpa.title, true)}
+      <div class="content">
+        <div class="score-panel">
+          <div class="score-header">
+            <div><div class="score-big">${result.score}<span class="score-denom">/6</span></div></div>
+            <div class="score-right">
+              <div class="score-grade">${g.label}</div>
+              <div class="score-breakdown-mini">
+                Method: ${bd.method.score}/${bd.method.max}<br>
+                Variables: ${bd.variables.score}/${bd.variables.max}<br>
+                Evaluation: ${bd.evaluation.score}/${bd.evaluation.max}
+              </div>
+            </div>
+          </div>
+          <div class="score-body">
+            <div class="feedback-section">
+              <div class="feedback-title">What was found in your answer</div>
+              ${feedbackHtml}
+            </div>
+            ${aqaHtml}${nextHtml}
+          </div>
+        </div>
+        <button class="cta-btn" data-action="tryAgain">Try Again</button>
+        <button class="cta-btn cta-btn-outline" style="margin-top:8px;" data-action="goBack">Back to RPA</button>
+      </div>${nav()}`;
+  }
+
+  return `${hdr('6-Mark Question', rpa.title, true)}
+    <div class="content">
+      <div class="six-mark-hint">
+        <strong>💡 Exam tip:</strong> Bullet points are perfectly fine — no need to write in paragraphs. Aim for 6 clear points covering method steps, variables, and how to make results reliable. Try to use the phrases "calculate a mean" and "identify anomalous results".
+      </div>
+      <div class="mark-question">
+        <div class="mark-q-label">Exam question</div>
+        <div class="mark-q-text">${q.question_text}</div>
+        <div class="mark-q-marks">[${q.marks} marks]</div>
+      </div>
+      <textarea id="applyTA" placeholder="Write your answer here — bullet points are fine!">${S.applyAnswer}</textarea>
+      <div class="char-count" id="charCount">${S.applyAnswer.length} characters</div>
+      <button class="cta-btn" style="margin-top:8px;" data-action="submitAnswer">Mark My Answer →</button>
+    </div>${nav()}`;
+}
+
+// ── RESULTS ──────────────────────────────
+function renderResults() {
+  const scored = DATA.rpas.filter(r => S.sessionScores[r.id]);
+  const wa = weakAreas();
+  const cardsHtml = scored.length === 0
+    ? `<div class="empty-state"><div class="empty-icon">📊</div><div class="empty-text">No results yet.<br>Complete some practice to see your progress here.</div></div>`
+    : scored.map(rpa => {
+        const m = mastery(rpa.id);
+        const s = S.sessionScores[rpa.id];
+        return `<div class="results-card">
+          <div class="results-rpa-name">${rpa.title}</div>
+          <div class="mastery-label"><span>Overall mastery</span><span>${m}%</span></div>
+          <div class="mastery-bar"><div class="mastery-fill" style="width:${m}%"></div></div>
+          <div class="results-scores">
+            ${s.fc!==undefined?`<div class="results-score-chip"><div class="results-score-chip-label">Cards</div><div class="results-score-chip-val">${Math.round(s.fc)}%</div></div>`:''}
+            ${s.sb!==undefined?`<div class="results-score-chip"><div class="results-score-chip-label">Sentences</div><div class="results-score-chip-val">${Math.round(s.sb)}%</div></div>`:''}
+            ${s.apply!==undefined?`<div class="results-score-chip"><div class="results-score-chip-label">6-Mark</div><div class="results-score-chip-val">${s.apply}/6</div></div>`:''}
+          </div>
+        </div>`;
+      }).join('');
+
+  const weakHtml = wa.length ? `<div class="section-label">Weak areas</div>
+    <div class="weak-wrap">${wa.map(r => `<span class="weak-tag">⚠ ${r.title}</span>`).join('')}</div>` : '';
+
+  const recoRpa = wa[0];
+  const recoHtml = recoRpa ? `<div class="reco-card" data-action="openRpa" data-id="${recoRpa.id}">
+    <div class="reco-label">Recommended next</div>
+    <div class="reco-text">→ ${recoRpa.title} — 6-mark practice</div>
+  </div>` : '';
+
+  const hasSaves = scored.length > 0;
+
+  return `${hdr('Your Progress','Session & saved results',false)}
+    <div class="content">
+      <div class="section-label">RPA mastery</div>
+      ${cardsHtml}
+      ${weakHtml}${recoHtml}
+      ${hasSaves ? `<div class="settings-card">
+        <div class="settings-title">Progress settings</div>
+        <div style="font-size:13px;color:var(--text2);margin-bottom:10px;line-height:1.5;">Your progress is saved automatically on this device. To start fresh, tap the button below.</div>
+        <button class="reset-btn" data-action="resetProgress">Reset all progress</button>
+      </div>` : ''}
+    </div>${nav()}`;
+}
+
+// ── SHARED UI ────────────────────────────
+function hdr(title, sub, showBack) {
+  return `<div class="header"><div class="header-top">
+    ${showBack ? `<button class="back-btn" data-action="goBack">‹</button>` : ''}
+    <div class="header-text">
+      <div class="header-title">${title}</div>
+      ${sub ? `<div class="header-sub">${sub}</div>` : ''}
+    </div>
+  </div></div>`;
+}
+
+function nav() {
+  return `<div class="bottom-nav">
+    <button class="nav-tab ${S.tab==='rpas'?'active':''}" data-action="setTab" data-tab="rpas"><span class="nav-icon">🔬</span><span>RPAs</span></button>
+    <button class="nav-tab ${S.tab==='results'?'active':''}" data-action="setTab" data-tab="results"><span class="nav-icon">📊</span><span>Results</span></button>
+  </div>`;
+}
+
+// ═══════════════════════════════════════════
+//  EVENTS
+// ═══════════════════════════════════════════
+function attach() {
+  document.querySelectorAll('[data-action]').forEach(el => el.addEventListener('click', handleClick));
+  const tt = document.getElementById('tripleToggle');
+  if (tt) tt.addEventListener('change', e => { S.showTriple = e.target.checked; render(); });
+  const ta = document.getElementById('applyTA');
+  if (ta) {
+    ta.addEventListener('input', () => {
+      S.applyAnswer = ta.value;
+      const cc = document.getElementById('charCount');
+      if (cc) cc.textContent = ta.value.length + ' characters';
+    });
+  }
+}
+
+function handleClick(e) {
+  const el = e.currentTarget, a = el.dataset.action;
+
+  if (a === 'openRpa') {
+    S.selectedRpa = el.dataset.id; S.view='detail'; S.tab='rpas';
+    S.openSections={}; S.openTerms={}; render();
+  }
+  else if (a === 'goBack') {
+    if      (S.view==='detail')   S.view='list';
+    else if (S.view==='practice') S.view='detail';
+    else if (S.view==='sentence') S.view='detail';
+    else if (S.view==='apply')    { S.view='detail'; S.applyScore=null; S.applyAnswer=''; }
+    render();
+  }
+  else if (a === 'toggleSec') {
+    const icon = el.querySelector('.collapsible-icon');
+    const currently = icon && icon.classList.contains('open');
+    S.openSections[el.dataset.sid] = !currently; render();
+  }
+  else if (a === 'toggleTerm') {
+    const k = decodeURIComponent(el.dataset.term); S.openTerms[k] = !S.openTerms[k]; render();
+  }
+  else if (a === 'setTier') { S.tier = el.dataset.tier; render(); }
+  else if (a === 'startPractice') {
+    S.view='practice'; S.fcDone=false; S.fc={index:0,revealed:false,scores:{}}; render();
+  }
+  else if (a === 'retryPractice') {
+    S.fcDone=false; S.fc={index:0,revealed:false,scores:{}}; render();
+  }
+  else if (a === 'startSentence') {
+    const cards = SB_DATA[S.selectedRpa] || [];
+    if (!cards.length) return;
+    S.view='sentence'; S.sbDone=false;
+    S.sb={index:0, selected:new Array(cards[0].blanks.length).fill(null), answered:false, scores:{}}; render();
+  }
+  else if (a === 'retrySentence') {
+    const cards = SB_DATA[S.selectedRpa] || [];
+    S.sbDone=false; S.sb={index:0, selected:new Array(cards[0].blanks.length).fill(null), answered:false, scores:{}}; render();
+  }
+  else if (a === 'sbSelect') {
+    const blankIdx = parseInt(el.dataset.blank);
+    const opt = el.dataset.opt;
+    if (!S.sb.selected) S.sb.selected = [];
+    S.sb.selected[blankIdx] = opt;
+    // Check if all blanks filled
+    const cards = SB_DATA[S.selectedRpa];
+    const card = cards[S.sb.index];
+    const allFilled = card.blanks.every((_,i) => S.sb.selected[i]);
+    if (allFilled) S.sb.answered = true;
+    render();
+  }
+  else if (a === 'sbNext') {
+    const cards = SB_DATA[S.selectedRpa];
+    const card = cards[S.sb.index];
+    // Score this card
+    const correct = card.blanks.every((b,i) => S.sb.selected[i] && S.sb.selected[i].toLowerCase() === b.toLowerCase());
+    S.sb.scores[S.sb.index] = correct;
+    if (S.sb.index + 1 < cards.length) {
+      const nextCard = cards[S.sb.index + 1];
+      S.sb.index++;
+      S.sb.selected = new Array(nextCard.blanks.length).fill(null);
+      S.sb.answered = false;
+      render();
+    } else {
+      const correct_count = Object.values(S.sb.scores).filter(Boolean).length;
+      const pct = Math.round((correct_count / cards.length) * 100);
+      updateScore(S.selectedRpa, 'sb', pct);
+      S.sbDone = true; render();
+    }
+  }
+  else if (a === 'startApply') { S.view='apply'; S.applyScore=null; S.applyAnswer=''; render(); }
+  else if (a === 'revealCard') { if (!S.fc.revealed) { S.fc.revealed=true; render(); } }
+  else if (a === 'fcGot')  { advanceCard(true); }
+  else if (a === 'fcNope') { advanceCard(false); }
+  else if (a === 'submitAnswer') {
+    const ta = document.getElementById('applyTA');
+    const ans = ta ? ta.value : S.applyAnswer;
+    if (!ans.trim()) { alert('Please write your answer before submitting.'); return; }
+    const rpa = DATA.rpas.find(r => r.id === S.selectedRpa);
+    const result = markAnswer(ans, rpa.mark_scheme);
+    updateScore(S.selectedRpa, 'apply', result.score);
+    S.applyAnswer=ans; S.applyScore=result; render();
+  }
+  else if (a === 'tryAgain')  { S.applyScore=null; S.applyAnswer=''; render(); }
+  else if (a === 'setTab') {
+    S.tab = el.dataset.tab;
+    S.view = el.dataset.tab === 'results' ? 'results' : 'list';
+    render();
+  }
+  else if (a === 'resetProgress') {
+    if (confirm('Reset all saved progress? This cannot be undone.')) {
+      clearProgress();
+      S.sessionScores = {};
+      render();
+    }
+  }
+}
+
+function advanceCard(got) {
+  const rpa = DATA.rpas.find(r => r.id === S.selectedRpa);
+  S.fc.scores[S.fc.index] = got;
+  if (S.fc.index + 1 < rpa.flashcards.length) {
+    S.fc.index++; S.fc.revealed=false; render();
+  } else {
+    const correct = Object.values(S.fc.scores).filter(Boolean).length;
+    const pct = Math.round((correct / rpa.flashcards.length) * 100);
+    updateScore(S.selectedRpa, 'fc', pct);
+    S.fcDone=true; render();
+  }
+}
+
+render();
+</script>
+</body>
+</html>
